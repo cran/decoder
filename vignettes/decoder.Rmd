@@ -1,0 +1,246 @@
+---
+title: "Decode coded variables to plain text (and vice versa)"
+author: "Erik Bulow"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Decode coded variables to plain text (and vice versa)}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+# Main purpose of the package
+
+The main purpose of this packgae is twofold:
+
+1. To easily translate coded variables into plain text using standardised dictionaries.
+2. To provide an infrastructure to create such dictionaries.
+
+The first purpose is assumed to dominate and the package therefore includes several dictionaries compatible with data from INCA and Rockan.
+
+
+
+# Example for "decode"
+
+
+Assume we have a dataset with some (more or less) typical RCC-data:
+
+```{r}
+set.seed(12345)
+n <- 6
+s <- function(x) sample(x, n, replace = TRUE)
+
+incadata <- 
+    data.frame(KON_VALUE = s(1:2),
+               region = 1:6,
+               a_icdo3 = c("C446", "C749", "C159", "C709", "C475", "C320"),
+               a_tstad = c("0", "1", "1a", "1b", "1c", "2")
+)
+knitr::kable(incadata)
+
+```
+
+
+
+
+## Manually specified decodings
+
+`decode` is a generic S3-function that accepts R-object of different kinds.
+The default method takes an atomic vector with codes and a specification of how to translate these codes (see `?decode`).
+
+```{r}
+
+# the package is automatically attached by the rcc package.
+# Use 'library(rcc)' if you have the rcc package installed or
+# attach only the decoder package by:
+library(decoder)
+
+decode(incadata$KON_VALUE, "kon")
+decode(incadata$a_tstad, "t_rtr")
+```
+
+See `?key_value_data` for a list of all available keyvalue objects included in the package.
+
+
+
+
+## The whole data.frame at once
+
+There is also a method for data.frames, where translations are made automatically for columns with recognised names. 
+```{r}
+incadata_decoded <- decode(incadata)
+knitr::kable(incadata_decoded)
+```
+
+All the original columns from incadata are preserved but are now accompanied by some additional columns with identical names suffixed by "_beskrivning".
+("_Beskrivning" with capital "B" will be used if there are already some column names with suffixes "_Beskrivning" or "_Värde" in the data, otherwise lower case variable names are generally preffered in all the rcc packages).
+
+
+
+### A note of caution
+
+To automatically transform all columns of a data.frame can be "dangerous" if the data.frame includes a column with arbitrary data but with a name just coincidentally beeing recognised as a standard variable name. It is therefore recommended to use this function mostly in interactive mode and to always look at the message specifying which columns that were automatically detected. 
+
+It should however also be noted that the variable names are hard coded and have to be excact (although case differnecies are ignored). Hence, the variable "a_icdo3" were not recognised (even though its name could have been easily matched by a regular expression: `grepl("icdo3", "a_icdo3")`.
+
+
+
+## Several keyvalues for the same code
+
+Note that the same coded variable might be decoded by more than one keyvalue-object, for example the "a_icdo3"-variable is automatically decoded by the "icdo3" keyvalue object (see `?icdo3`) with a dictionary from Rockan. ICD-O3 however, can also be seen as a "developed subset" of ICD10, wherefore:
+
+```{r}
+decode(incadata$a_icdo3, "icd10")
+```
+
+"icd10", can also decode non oncological desease codes:
+```{r}
+decode(c("D448A", "T009", "F182", "S134C", "C131"), "icd10")
+```
+
+
+
+## Exact versus non exact decoding
+
+So far, we have looked only on cases where the code can be littaraly translated by the keyvalue object. There is however a third argument to the decode function, `exact`, which is `FALSE` by default. It is often useful to allow some automatic transformation for variables that we know are coded values but that are not exactly the same as in the keyvalue object. The most common application is probably when we want to extract the municipality names from an LKF-variable. This can obviosly be done by:
+```{r}
+x <- c(178405, 138408, 108202, 128706, 048005)
+y <- as.numeric(substring(as.character(x), 1, 4))
+decode(y, "kommun", exact = TRUE)
+```
+
+But it is also possible to use the original six digit code as is:
+```{r}
+decode(x, "kommun")
+```
+
+Note here that the last value decodes to `NA` in both cases. It would be preffered to have the original codes stored as character, since that preserves the leading 0 in "048005":
+```{r}
+decode("048005", "kommun")
+```
+This can also be taken care of by reading data through the `use_incadata` function (see `?incadata::use_incadata`), which always classifies numbers with leading zeros as characters (and not numeric) (but this will not be covered in this vignette).
+
+Note that use of `exact = FALSE` (which is the default for convenience) always produce warnings when some transformations are done. It is always recommended to manually confirm that these transformations are in fact accurate. Unexpected results might otherwise occur!
+
+
+## More than one decoded variable from the same code
+
+Using non exact decoding, the same code might be simultaneously decoded by more that one keyvalue object using the data.frame method:
+
+```{r}
+df <- data.frame(LKF = c("149804", "147104", "012704", "143505", "126502", "232602"))
+knitr::kable(suppressWarnings(decode(df)))
+```
+
+
+Consult `?hemort` and `?forsamling` to invest the differnce between these two variables (hint: a lot have happened with Swedish administrative geography since 1958).
+
+
+## Extra functions
+
+The atomic vector method has an additional argument `extra_functions` that can be used to modify the outcome of the decoded variable. Read the man page (`?decode`) for more details and a complete list of available extra functions.
+
+The default regional names used from INCA are used by default by the "region" keyvalue:
+```{r}
+decode(1:6, "region")
+```
+
+Sometimes it is however more convenient to use an abbriviated form of these names such as:
+```{r}
+decode(1:6, "region", "short_region_names")
+```
+
+This could also be achieved by an additional keyvalue object containing the hard coded short names but an additional advantage with the "extra_function" method is that several extra functions can be chained:
+```{r}
+munic_west <- c("1382", "1419", "1441", "1460", "1472", "1488", "1496")
+decode(munic_west, "sjukvardsomrade", c("kungalv2Storgoteborg", "real_names"))
+```
+
+
+
+
+# Example for "code" (the opposite of decode)
+
+In the simplest situation (with a 1:1 relation between the code and its value), `code` is just the inverse of `decode`:
+```{r}
+code(c("Karlskrona", "Göteborg", "Härnösand"), "kommun")
+```
+`decode` does however also allow translation with m:1 dictionaries such as `snomed` (which gives a differnt result than `snomed3`):
+```{r}
+non_unique <- c(90703, 90723, 96153, 99403, 89643, 90443)
+decode(non_unique, "snomed")
+```
+
+This decoding can not be inverted:
+```{r, error = TRUE, purl = FALSE}
+code(decode(non_unique, "snomed"), "snomed")
+```
+This restriction only applies when the requested values are de facto non unique. It is not tied to the keyvalue object as such.
+```{r}
+unique <- c("Mucinöst kystadenom (kystom) borderline-typ ( 2 B)", "Medullärt carcinom, atypiskt", 
+            "Mb Paget non invasiv och intraduktal", "Lymfangiosarcom, misst", 
+            "Fibröst histiocytom, malignt", "Ganglioneurom", "Carcinoid (exkl appendix)", 
+            "Langerhans cell histiocytos, UNS, Histiocytosis X, UNS", "Brenner tumör, malign", 
+            "Lymfatisk leukemi, UNS")
+code(unique, "snomed")
+```
+
+
+
+
+
+# The underlying machinery
+
+In all examples above the so called keyvalue object were specified by a quoted name (such as "`kon`" or "`region`" etcetera). These names refer to internal package objects that can not be lazy loaded from the package but which can still be accesed by the tripple colon notation:
+```{r}
+decoder:::kon
+decoder:::region
+```
+
+These objects might look like ordinary data.frames but they do have some extra attributes as described by `?as.keyvalue`.
+```{r}
+attributes(decoder:::kon)
+```
+
+The _keyvalue11_ attribute indicates that "code" can be used as an inverse of "decode" for translations using this keyvalue obejct, hence without the problems as described for `snomed`. 
+The *standard_var_names* attribute provides a list with known names for the coded version of this variable when found in a data.frame (used by `decode.data.frame`).
+
+A complete list of all standard variable names can also be found in `decoder:::ALL_STANDARD_VAR_NAMES`:
+```{r}
+knitr::kable(head(decoder:::ALL_STANDARD_VAR_NAMES))
+```
+
+The key-column gives names of variables that are recognised and the value column gives the name of the corresponding keyvalue object to use for its decoding.
+
+
+
+
+# Examples how to create keyvalue objects
+
+It might sometimes come handy to create your own keyvalue objects for a specific project. The S3-generic `as.keyvalue` has several methods for this.
+
+For small dictionaries, a named vector might be sufficient:
+```{r}
+(kv <- as.keyvalue(c("car" = 1, "bike" = 2, "bus" = 3)))
+x <- s(1:3)
+decode(x, kv)
+```
+
+Longer dictionaries might be more convenient to read from disk and coerce to keyvalue objects using the data.frame method. 
+Dictionaries with a lot of values for every key, can also be specified by a list method:
+```{r}
+ex <- list(
+         fruit  = c("banana", "orange", "kiwi"),
+         car    = c("SAAB", "Volvo", "taxi", "truck"),
+         animal = c("elephant")
+)
+knitr::kable(as.keyvalue(ex))
+```
+
+
+
+# Comments and suggestion
+
+You are always welcome to suggest enhancement, such as added kayvalue objects (dictionaries), report bugs or point out pieces of unclear documentation etcetera at www.bitbucket.com/cancercentrum/decoder/issues
+
