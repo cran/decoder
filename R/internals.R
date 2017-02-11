@@ -5,7 +5,8 @@
 #'
 #' @return Character vector of length \code{n}
 pad0 <- function(x, n) {
-    n <- pmax(0, n - nchar(x))
-    zeroes <- vapply(n, function(l) paste(rep("0", l), collapse = ""), character(1))
-    paste0(zeroes, as.character(x))
+  n <- pmax(0, n - nchar(x))
+  paste0( 
+    vapply(n, function(l) paste(rep("0", l), collapse = ""), character(1)),
+    as.character(x))
 }

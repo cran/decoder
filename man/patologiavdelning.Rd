@@ -8,9 +8,11 @@
 Key-value codes for the Swedish "laboratories".
 Data is combined from two sources.
 \enumerate{
- \item The official list from SOFS 2006:15 (see url below). This is the primary source for codes
+ \item The official list from SOFS 2006:15 (see url below). 
+ This is the primary source for codes
  appearing in both sources.
- \item Extra codes are also added from the old Rockan registry for historical reasons.
+ \item Extra codes are also added from the old Rockan registry for historical 
+ reasons.
 }
 }
 \references{
@@ -23,15 +25,14 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{icd10}}, \code{\link{icd7_grov}},
   \code{\link{icd7}}, \code{\link{icd9}},
   \code{\link{icdo3_grov}}, \code{\link{icdo3}},
-  \code{\link{icdo}}, \code{\link{key_value_data}},
-  \code{\link{klinik}}, \code{\link{kommun}},
-  \code{\link{kon}}, \code{\link{lan}},
-  \code{\link{m_rtr}}, \code{\link{n_rtr}},
-  \code{\link{pad}}, \code{\link{region}},
-  \code{\link{sida}}, \code{\link{sjukhus}},
-  \code{\link{sjukvardsomrade}}, \code{\link{snomed3}},
-  \code{\link{snomed}}, \code{\link{t_rtr}},
-  \code{\link{tnmgrund}}
+  \code{\link{icdo}}, \code{\link{klinik}},
+  \code{\link{kommun}}, \code{\link{kon}},
+  \code{\link{lan}}, \code{\link{m_rtr}},
+  \code{\link{n_rtr}}, \code{\link{pad}}, \code{\link{rc}},
+  \code{\link{region}}, \code{\link{sida}},
+  \code{\link{sjukhus_inca}}, \code{\link{sjukhus_par}},
+  \code{\link{sjukhus}}, \code{\link{sjukvardsomrade}},
+  \code{\link{snomed3}}, \code{\link{snomed}},
+  \code{\link{t_rtr}}, \code{\link{tnmgrund}}
 }
 \keyword{datasets}
-

@@ -129,7 +129,10 @@ Note that use of `exact = FALSE` (which is the default for convenience) always p
 Using non exact decoding, the same code might be simultaneously decoded by more that one keyvalue object using the data.frame method:
 
 ```{r}
-df <- data.frame(LKF = c("149804", "147104", "012704", "143505", "126502", "232602"))
+df <- 
+  data.frame(
+    LKF = c("149804", "147104", "012704", "143505", "126502", "232602")
+  )
 knitr::kable(suppressWarnings(decode(df)))
 ```
 
@@ -178,11 +181,17 @@ code(decode(non_unique, "snomed"), "snomed")
 ```
 This restriction only applies when the requested values are de facto non unique. It is not tied to the keyvalue object as such.
 ```{r}
-unique <- c("Mucinöst kystadenom (kystom) borderline-typ ( 2 B)", "Medullärt carcinom, atypiskt", 
-            "Mb Paget non invasiv och intraduktal", "Lymfangiosarcom, misst", 
-            "Fibröst histiocytom, malignt", "Ganglioneurom", "Carcinoid (exkl appendix)", 
-            "Langerhans cell histiocytos, UNS, Histiocytosis X, UNS", "Brenner tumör, malign", 
-            "Lymfatisk leukemi, UNS")
+unique <- c(
+  "Mucinöst kystadenom (kystom) borderline-typ ( 2 B)", 
+  "Medullärt carcinom, atypiskt", 
+  "Mb Paget non invasiv och intraduktal", 
+  "Lymfangiosarcom, misst", 
+  "Fibröst histiocytom, malignt", 
+  "Ganglioneurom", 
+  "Carcinoid (exkl appendix)", 
+  "Langerhans cell histiocytos, UNS, Histiocytosis X, UNS", 
+  "Brenner tumör, malign", 
+  "Lymfatisk leukemi, UNS")
 code(unique, "snomed")
 ```
 

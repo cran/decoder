@@ -1,14 +1,10 @@
-
 context("as.value")
 
-
 test_that("as.value", {
-    expect_that(as.value(1:10), is_a("value"))
-    expect_that(as.value(1:10), is_a("integer"))
+  expect_is(as.value(1:10), c("value", "integer"))
 })
 
-
 test_that("is.value", {
-    expect_that(is.value(snomed$value), is_true())
-    expect_that(is.value(snomed$key), is_true())
+  expect_true(is.value(snomed$value))
+  expect_true(is.value(snomed$key))
 })

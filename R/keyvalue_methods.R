@@ -9,17 +9,20 @@
 #' @export
 #' @seealso \link{keyvalue}
 summary.keyvalue <- function(object, ...){
-    data.frame.summary <- summary.data.frame(object)
-    
-    standard_var_names <- attr(object, "standard_var_names")
-    
-    if (!is.keyvalue11(object)){
-        # writeLines("\n\nThe following entries in the keyvalue-object are not 1:1!\n")
-        nonunique <- object[object$value %in% unlist(dimnames(table(object$value)[table(object$value) > 1])), ]
-        nonunique <- nonunique[order(nonunique$value),]
-    }
-    
-    list(data.frame.summary = data.frame.summary,
-         standard_var_names = standard_var_names,
-         nonunique = nonunique)
+  data.frame.summary <- summary.data.frame(object)
+  
+  standard_var_names <- attr(object, "standard_var_names")
+  
+  if (!is.keyvalue11(object)) {
+    nonunique <- 
+      object[object$value %in% 
+               unlist(dimnames(table(object$value)[table(object$value) > 1])), ]
+    nonunique <- nonunique[order(nonunique$value),]
+  }
+  
+  list(
+    data.frame.summary = data.frame.summary,
+    standard_var_names = standard_var_names,
+    nonunique          = nonunique
+  )
 }

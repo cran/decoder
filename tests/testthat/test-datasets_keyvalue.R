@@ -1,41 +1,38 @@
-
 context("datasets_keyvalue")
 
-
 test_that("correct classes",{
-    
-    ## Geography
-    expect_that(region, is_a("keyvalue"))
-    expect_that(lan, is_a("keyvalue"))
-    expect_that(kommun, is_a("keyvalue"))
-    expect_that(forsamling, is_a("keyvalue"))
-    expect_that(distrikt, is_a("keyvalue"))
-    
-    ## Administration
-    expect_that(sjukhus, is_a("keyvalue"))
-    expect_that(klinik, is_a("keyvalue"))
-    expect_that(patologiavdelning, is_a("keyvalue"))
-    
-    ## Diagnoses
-    expect_that(t_rtr, is_a("keyvalue"))
-    expect_that(n_rtr, is_a("keyvalue"))
-    expect_that(m_rtr, is_a("keyvalue"))
-    expect_that(figo, is_a("keyvalue"))
-    expect_that(tnmgrund, is_a("keyvalue"))
-    expect_that(sida, is_a("keyvalue"))
-    expect_that(icd7, is_a("keyvalue"))
-    expect_that(icd9, is_a("keyvalue"))
-    expect_that(icd10, is_a("keyvalue"))
-    expect_that(icdo, is_a("keyvalue"))
-    expect_that(icdo3, is_a("keyvalue"))
-    expect_that(snomed, is_a("keyvalue"))
-    expect_that(snomed3, is_a("keyvalue"))
-    expect_that(pad, is_a("keyvalue"))
-    
-    ## Others
-    expect_that(kon, is_a("keyvalue"))
-    
-    ## keyvaluem1
-    expect_that(sjukvardsomrade, is_a("keyvalue"))
-    
+  
+  ## Geography
+  expect_is(region,            "keyvalue")
+  expect_is(lan,               "keyvalue")
+  expect_is(kommun,            "keyvalue")
+  expect_is(forsamling,        "keyvalue")
+  expect_is(distrikt,          "keyvalue")
+  
+  ## Administration
+  expect_is(sjukhus,           "keyvalue")
+  expect_is(klinik,            "keyvalue")
+  expect_is(patologiavdelning, "keyvalue")
+  
+  ## Diagnoses
+  expect_is(t_rtr,             "keyvalue")
+  expect_is(n_rtr,             "keyvalue")
+  expect_is(m_rtr,             "keyvalue")
+  expect_is(figo,              "keyvalue")
+  expect_is(tnmgrund,          "keyvalue")
+  expect_is(sida,              "keyvalue")
+  expect_is(icd7,              "keyvalue")
+  expect_is(icd9,              "keyvalue")
+  expect_is(icd10,             "keyvalue")
+  expect_is(icdo,              "keyvalue")
+  expect_is(icdo3,             "keyvalue")
+  expect_is(snomed,            "keyvalue")
+  expect_is(snomed3,           "keyvalue")
+  expect_is(pad,               "keyvalue")
+  
+  ## Others
+  expect_is(kon,               "keyvalue")
+  
+  ## keyvaluem1
+  expect_is(sjukvardsomrade,   "keyvalue")
 })

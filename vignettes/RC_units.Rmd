@@ -1,0 +1,115 @@
+---
+title: "Enhetskoder för dataexport till RC"
+author: "Erik Bulow"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Bakgrund
+
+Vid dataexport till RC:s kompassen krävs andra sjukhuskoder än de som normalt används inom RCC.
+Dessutom tillämpas kodsättning på förvaltningsnivå för sjukhus inom regionen.
+
+# Översättningsmatriser
+
+`decoder`-paketet innehåller två översättningsmatriser till nytta vid data-export till RC:
+
+* `sjukhus_rc` översätter RCC:s sjkhuskoder till motsvarande koder som används av RC
+* `forvaltning_rc` Översätter RCC:s sjukhuskoder till förvaltningskoder som används av RC
+
+Utöver  dessa båda huvudmatriser finns ytterligare två hjälpmatriser som inte är avsedda för (men som trots allt går) att använda direkt (se nedan:
+ 
+ * `sjukhus_rc_kod2klartext` översätter RC:s koder till deras motsvarande sjukhusnamn i klartext. Observera att dessa namn inte nödvändigtvis överrensstämmer med motsvarande namn hos RCC (se nedan).
+ * `forvaltning_rc_kod2klartext` översätter RC:s förvaltningskoder till klartext. Dessa koder kanske i någon mån kan sägas motsvara RCC_s sjukhusområden (som dock baseras på folkbokföring) och inte som här, på VGR:s interna förvaltningsstruktur.
+ 
+
+# Exempel
+ 
+Låt anta att vihar följande INCA-data att exportera till RC:
+
+ 
+```{r}
+df <- 
+  data.frame(
+    sjukhus          = c("51012", "53011", "53013", "52011", "50070"),
+    something        = sample(letters, 5),
+    something_else   = sample(LETTERS, 5),
+    stringsAsFactors = FALSE
+  )
+knitr::kable(df)
+```
+
+Vi vill här översätta RCC:s sjukhuskod till motsvarande kod som används av RC:
+
+```{r}
+# Vi använder också dplyr för data managemant
+suppressPackageStartupMessages(library(dplyr))
+library(decoder)
+
+df %>% 
+  mutate(
+    sjukhus_rc     = decode(sjukhus, "sjukhus_rc"),
+    forvaltning_rc = decode(sjukhus, "forvaltning_rc")
+  ) %>% 
+  knitr::kable()
+```
+
+Kanske är detta tillräckligt för RC? Men kanske vill vi också se sjukhus-och förvaltningsnamn i klartext för att exempelvis kunna felsöka:
+
+
+```{r}
+df %>% 
+  mutate(
+    sjukhus_rc_kod  = decode(sjukhus, "sjukhus_rc"),
+    forv_rc_kod     = decode(sjukhus, "forvaltning_rc"),
+    sjukhus_rc_namn = decode(sjukhus, "sjukhus_rc", "sjukhus_rc_namn"),
+    forv_rc_namn    = decode(sjukhus, "forvaltning_rc", "forvaltning_rc_namn")
+  ) %>% 
+  knitr::kable()
+```
+
+Översättning till sjukhus- och förvaltningsnamn sker här med hjälp av argumentet `extra_functions` till `decode`-funktionen. Ett alternativt sätt är att nyttja de båda hjälpmatriserna enligt ovan:
+
+
+```{r, eval = FALSE}
+df %>% 
+  mutate(
+    sjukhus_rc_kod      = decode(sjukhus, "sjukhus_rc"),
+    forvaltning_rc_kod  = decode(sjukhus, "forvaltning_rc"),
+    sjukhus_rc_namn     = decode(sjukhus_rc_kod, "sjukhus_rc_code2klartext"),
+    forvaltning_rc_namn = decode(forvaltning_rc_kod, "forvaltning_rc_code2klartext")
+  ) 
+```
+
+En fördel med den fösra metoden framför den andra är att översättningen kan ske i ett steg istället för två. Just i detta exempel hade vi redan skapat `sjukhus_rc_kod` respektive `forvaltning_rc_kod` och kunde då utgå från dessa som mellansteg (något som också underlättas av att vi använder `dplyr::mutate`). Om så inte hade varit fallet skulle det krävas omkodning i två steg såsom:
+```{r}
+decode(decode(df$sjukhus, "sjukhus_rc"), "sjukhus_rc_code2klartext")
+```
+
+# Skillnader i sjukhusnamn
+
+Vi illustrerar här skillnaderna mellan sjukhusnamn som används av RC och RCC genom att utgå från RCC:s sjukhuskoder som återfinns i översättningstabellerna, det vill säga internt i översättningsobjektet `sjukhus_rc$key`:
+
+```{r}
+sjukhusnamn <- 
+  data_frame(
+    rcc_sjukhus_kod = decoder:::sjukhus_rc$key,
+    rcc_sjukhus_namn = decode(rcc_sjukhus_kod, "sjukhus"),
+    sjukhus_rc_namn = decode(rcc_sjukhus_kod, "sjukhus_rc", "sjukhus_rc_namn")
+  ) 
+
+knitr::kable(sjukhusnamn)
+```
+
+Vi finner att `r nrow(filter(sjukhusnamn, rcc_sjukhus_namn != sjukhus_rc_namn))` namn av `r nrow(decoder:::sjukhus_rc)` skiljer sig åt.
+
+Att RCC saknar namnöversättning för Angereds närsjukhus kan bero på att paketet än så länge utgår från en gammal översättningstabell (detta kommer uppdateras inom kort).
+
+
+# Hela regionen
+
+RC kodar också hela GVR:s data med koden 55555. Detta faller dock utan för ramen för översättning direkt från sjukhuskod. Just nu rekmmeneras därför att detta hanteras separat. 

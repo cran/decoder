@@ -22,4 +22,3 @@ Objects of type \code{keyvalue11} are summarised as data.frames with an addition
 \seealso{
 \link{keyvalue}
 }
-
