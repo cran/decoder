@@ -1,5 +1,5 @@
-579832851389bfa28b72a81b6c65a7b7 *DESCRIPTION
-5d356b85c5663da982d5afc176232b88 *NAMESPACE
+54ff1df839c380541d676730fe0c9c58 *DESCRIPTION
+c3df49ee6922a441c6602dcb6d83f254 *NAMESPACE
 64d3262f60787390bce977122f430f63 *R/as.key.R
 e69a792374b497819e08295ff49ed0dc *R/as.keyvalue.R
 f62b07463f0f93d992d807361080ea1e *R/as.keyvalue.data.frame.R
@@ -14,7 +14,7 @@ d1c2cdb7ddde967eb7e26fd4ec8dcede *R/datasets_keyvalue.R
 02c5bf6d65197258a3276c7dadd14a4f *R/decode.default.R
 384e19a1bf45a8fc0d25d1748f2cd837 *R/extra_functions.R
 2a9a19a9adb17e761ac583fdf17720b6 *R/internal_format_as_key.R
-d165641a00097e8f72cabf4325d14281 *R/internals.R
+14f0fe2b4728536af48e7c961da4422b *R/internals.R
 d087c022c67663fc7c47d17f853d3982 *R/is.keyvalue.R
 bc5848a7b94bc4c234bdd3f8166a4e29 *R/keyvalue_methods.R
 0fa839eecf761753a21f4e12071f0d1d *R/sysdata.rda
