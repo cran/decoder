@@ -8,7 +8,7 @@
 Key-value codes for the Swedish districts (introduced 2016-01-01).
 }
 \seealso{
-\url{www.scb.se/sv_/Hitta-statistik/Regional-statistik-och-kartor/Regionala-indelningar/Distrikt/}
+\url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/distrikt/}
 
 Other key_value_data: \code{\link{figo}},
   \code{\link{forsamling}}, \code{\link{hemort}},
@@ -27,4 +27,5 @@ Other key_value_data: \code{\link{figo}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

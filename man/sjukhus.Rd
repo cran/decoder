@@ -16,7 +16,7 @@ one hospital
 in the new version of the classification but the Swedish regional cancer 
 centers
 still classify it as three different hospitals.
-Note also that primary health care units did recieve their own codes until 
+Note also that primary health care units did receive their own codes until 
 1992 (?)
 but not later!
 }
@@ -41,4 +41,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

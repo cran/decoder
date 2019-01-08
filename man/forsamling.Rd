@@ -5,7 +5,7 @@
 \alias{forsamling}
 \title{Forsamling (parish code)}
 \description{
-Key-value codes for the Swedish parisches (forsamlingar).
+Key-value codes for the Swedish parishes (forsamlingar).
 All six digits in the LKF code.
 }
 \section{forsamling}{
@@ -16,7 +16,7 @@ Contains 1377 key-value pairs.
 }
 
 \references{
-\url{http://www.scb.se/sv_/Hitta-statistik/Regional-statistik-och-kartor/Regionala-indelningar/Lan-och-kommuner/}
+\url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
 }
 \seealso{
 Other key_value_data: \code{\link{distrikt}},
@@ -36,4 +36,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

@@ -1,10 +1,10 @@
 ---
-title: "Enhetskoder för dataexport till RC"
+title: "Unit codes for SHAR"
 author: "Erik Bulow"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Unit codes for SHAR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

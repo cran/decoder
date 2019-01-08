@@ -26,4 +26,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

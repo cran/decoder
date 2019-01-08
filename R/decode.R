@@ -2,10 +2,10 @@
 #'
 #'Translate coded values into meaningful plain text (or reversed). 
 #'
-#'@param x object to decode. Either a key vector to be matched againt the 
+#'@param x object to decode. Either a key vector to be matched against the 
 #'  \code{key} column in \code{keyvalue}, or a data.frame (see section 
 #'  \code{decode.data.frame}). object.
-#'@param y value to be coded (to be matched againt the \code{value} element) in 
+#'@param y value to be coded (to be matched against the \code{value} element) in 
 #'  a \link{keyvalue} object.
 #'@param keyvalue either a name (as character string) of a package internal 
 #'  \link{keyvalue} object, or a user 
@@ -14,7 +14,7 @@
 #'  \code{FALSE}. When \code{FALSE}, \code{x} might be transformed to fit the 
 #'  key (punctuation might be removed, upper case changed to lower case or vice 
 #'  versa and strings that are too long might be substringed). (\code{code} only
-#'  accept excact matches.)
+#'  accept exact matches.)
 #'@param extra_functions is a list of functions (or names of functions as 
 #'  character vector) to be applied to the decoded data after decoding (see 
 #'  section "extra_functions" below).
@@ -41,7 +41,7 @@
 #'  original name with suffix \code{_Beskrivning}. This is done for all 
 #'  identified columns. 
 #'  
-#'@section extra_functions: The relationship betwen the key and the value in a 
+#'@section extra_functions: The relationship between the key and the value in a 
 #'  keyvalue object is either 1:1 or m:1. The mapping is straight forward for 
 #'  1:1 but with m:1, different applications might require slightly different 
 #'  groupings of the keys. One solution is to have several versions of the 
@@ -64,8 +64,8 @@
 #'  below.} \item{\code{kungalv2Storgoteborg}}{As \code{kungalv2Fyrbodal} but 
 #'  classifies Kungalv as a part of Storgoteborg.} \item{\code{real_names}}{Give
 #'  the area names with correct Swedish spelling (including spaces). This is not
-#'  as default due to compability reasons and because names with spaces must be 
-#'  back-ticked when reffered to.} }
+#'  as default due to compatibility reasons and because names with spaces must be 
+#'  back-ticked when referred to.} }
 #'  
 #'  To use with \link{region} \describe{ 
 #'  \item{\code{short_region_names}}{Exclude the prefix 'Region' from the region

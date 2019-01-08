@@ -6,11 +6,11 @@
 \title{HSN code (Hälso- och sjukvårdsnämnd)}
 \description{
 Key-value codes for the HSN:s in VGR valid from 2015.
-Based on municipalaty codes (\code{\link{kommun}}).
+Based on municipality codes (\code{\link{kommun}}).
 Data from 2014-12-17.
 }
 \details{
-Categorisation:
+Categorization:
 \describe{
 \item{Norra}{Lysekil, Munkedal, Orust, Sotenäs, Strömstad, Tanum, Bengtsfors, 
 Dals-Ed, Färgelanda, Mellerud, Åmål, Trollhättan, Uddevalla och Vänersborg}
@@ -41,4 +41,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

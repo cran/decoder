@@ -7,7 +7,7 @@
 \alias{forvaltning_rc}
 \title{Codes used by RC's kvartalen}
 \description{
-Key-value codes for VGR hospitals and organisatuional units according to RC.
+Key-value codes for VGR hospitals and organizational units according to RC.
  
  Function \code{sjukhus_rc_namn} and \code{forvaltning_rc_namn}
  (see\code{\link{extra_functions}}) can be 
@@ -20,7 +20,7 @@ Key-value codes for VGR hospitals and organisatuional units according to RC.
  # From RCC code to RC name
  decode(51012, "sjukhus_rc", "sjukhus_rc_namn")
  
- # From RCC hospital code to RC organisational unit code
+ # From RCC hospital code to RC organizational unit code
  decode(51012, "forvaltning_rc")
  
  # From RCC code to RC name
@@ -48,4 +48,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

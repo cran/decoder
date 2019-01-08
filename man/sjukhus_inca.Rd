@@ -5,7 +5,7 @@
 \alias{sjukhus_inca}
 \title{Hospital codes used by INCA}
 \description{
-Codes taken from INCA's organisational register 2017-02-03.
+Codes taken from INCA's organizational register 2017-02-03.
 }
 \seealso{
 Other key_value_data: \code{\link{distrikt}},
@@ -25,4 +25,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

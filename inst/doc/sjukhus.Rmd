@@ -1,10 +1,10 @@
 ---
-title: "Alternativa sjukhuskoder"
+title: "Alternative hospital names"
 author: "Erik Bulow"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Alternative hospital names}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -10,7 +10,7 @@ First four digits in the LKF code.
 Data from 2014-08-12.
 }
 \references{
-\url{http://www.scb.se/sv_/Hitta-statistik/Regional-statistik-och-kartor/Regionala-indelningar/Lan-och-kommuner/}
+\url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
 }
 \seealso{
 Other key_value_data: \code{\link{distrikt}},
@@ -30,4 +30,5 @@ Other key_value_data: \code{\link{distrikt}},
   \code{\link{snomed}}, \code{\link{t_rtr}},
   \code{\link{tnmgrund}}
 }
+\concept{key_value_data}
 \keyword{datasets}

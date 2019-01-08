@@ -16,7 +16,7 @@ The function returns an object of class \code{keyvalue}
 (and \code{list}.
 }
 \description{
-\code{x} should be a list with properties descrobed in section "Details".
+\code{x} should be a list with properties described in section "Details".
 }
 \details{
 \itemize{

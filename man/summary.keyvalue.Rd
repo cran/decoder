@@ -12,11 +12,11 @@
 \item{...}{ignored}
 }
 \value{
-A list with three elements: a summmary of the underlying data.frame,
+A list with three elements: a summary of the underlying data.frame,
 the standard_var_names and possibly a data.frame with all non 1:1 relations.
 }
 \description{
-Objects of type \code{keyvalue11} are summarised as data.frames with an additional display of possible
+Objects of type \code{keyvalue11} are summarized as data.frames with an additional display of possible
 \code{standard_var_names}. Objects of type \code{keyvalue} also gives a list of non 1:1 key-value pairs.
 }
 \seealso{

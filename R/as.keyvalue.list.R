@@ -1,6 +1,6 @@
 #' Coerce a list to keyvalue object
 #'
-#' \code{x} should be a list with properties descrobed in section "Details".
+#' \code{x} should be a list with properties described in section "Details".
 #' 
 #' \itemize{
 #'    \item{All names of the list elements should be unique.}

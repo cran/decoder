@@ -19,7 +19,7 @@
 #' @param ... arguments passed between methods
 #'
 #' @return 
-#' \code{as.keyvalue} returns a data.frame with additional class \code{keyvalue} that fullfills the requirements
+#' \code{as.keyvalue} returns a data.frame with additional class \code{keyvalue} that fulfills the requirements
 #' for a \code{keyvalue} object and with the \code{key} column as character. It also has two extra attributes
 #' \code{standard_var_names} as described above and \code{keyvalue11} which is \code{TRUE} for keyvalue objects
 #' with a 1:1 relation between its keys and values (otherwise FALSE).
