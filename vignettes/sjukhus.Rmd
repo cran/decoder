@@ -9,6 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r}
+library(decoder)
+```
+
+
 # Bakgrund
 
 Vad vi nedan menar med sjukhus omfattar i många fall även vårdcentraler och privatläkare. 
@@ -17,10 +22,9 @@ Paketet innehåller fyra olika kodverk för sjukhuskoder:
 
 | keyvalue     |      Källa                    |  Antal                           |
 |--------------|-------------------------------|---------------------------------:|
-| sjukhus_inca | Organisationsregistret i INCA | `r nrow(decoder:::sjukhus_inca)` |
-| sjukhus      | Rockan                        | `r nrow(decoder:::sjukhus)`      |
-| sjukhus_par  | SOS Patientregistret          | `r nrow(decoder:::sjukhus_par)`  |
-| sjukhus_rc   | Registercentrum               | `r nrow(decoder:::sjukhus_rc)`   |
+| sjukhus_inca | Organisationsregistret i INCA | `r nrow(sjukhus_inca)` |
+| sjukhus      | Rockan                        | `r nrow(sjukhus)`      |
+| sjukhus_par  | SOS Patientregistret          | `r nrow(sjukhus_par)`  |
 
 
 # sjukhus_inca
@@ -38,14 +42,6 @@ Se `?sjukhus` för mer info.
 
 
 
-# sjukhus_rc
-
-Ett litet kodverk som endast avser sjukhus inom VGR. Dessa koder används vid dataexport till "Kvartalen" via Registerentrum.
-
-Det finns en separat utförlig vignette om detta kodverk `vignette("RC_units", "decoder")`.
-Se också `?sjukhus_rc` för mer info.
-
-
 # sjukhus_par
 
 Koder som används i Socialstyrelsnes Patientregister. Denna förteckning avser endast sjukhus och endast de enheter som var aktuella 2014 (vilket var senaste året en sådan lista sammanställdes).
@@ -58,20 +54,15 @@ Se `?sjukhus_par` för mer info.
 library(decoder)
 suppressPackageStartupMessages(library(dplyr))
 
-rc <- 
-  decoder:::sjukhus_rc %>% 
-  mutate(
-    value = decode(value, "sjukhus_rc_code2klartext")
+sjukhus_all <-
+  suppressWarnings(
+    dplyr::bind_rows(
+      rockan = sjukhus,
+      inca   = sjukhus_inca,
+      par    = sjukhus_par,
+      .id    = "source"
+    )
   )
-  
-sjukhus_all <- 
-  dplyr::bind_rows(
-    rockan = decoder:::sjukhus,
-    inca   = decoder:::sjukhus_inca,
-    par    = decoder:::sjukhus_par,
-    rc     = rc,
-    .id    = "source"
-)
 
 key_n_sources <- 
   sjukhus_all %>% 
@@ -81,31 +72,18 @@ key_n_sources <-
 
 # Samma kod kan ge olika klartext
 
-Endast ett fåtal koder förekommer i samtliga kodverk (vilket är enligt förväntan då `sjukhus_rc` endast innehåller ett fåtal koder från VGR). 
-
-Även om samma kod hanteras av fler än ett kodverk så kan namnet i klartext också vara olika.
-
-```{r, echo = FALSE, message = FALSE}
-in4 <- key_n_sources %>% filter(n == 4)
-
-sjukhus_all %>% 
-  inner_join(in4) %>% 
-  arrange(key) %>% 
-  tidyr::spread(source, value) %>% 
-  select(-n) %>% 
-  knitr::kable()
-```
-
-Tittar vi endast på de tre större kodverken finner vi följande koder och deras namn i klartext:
+Även om samma kod hanteras av fler än ett kodverk så kan namnet i klartext vara olika:
 
 ```{r, echo = FALSE, message = FALSE}
 sjukhus_most <- 
-  dplyr::bind_rows(
-    rockan = decoder:::sjukhus,
-    inca   = decoder:::sjukhus_inca,
-    par    = decoder:::sjukhus_par,
-    .id    = "source"
-)
+  suppressWarnings(
+    dplyr::bind_rows(
+      rockan = sjukhus,
+      inca   = sjukhus_inca,
+      par    = sjukhus_par,
+      .id    = "source"
+    )
+  )
 
 key_n_sources <- 
   sjukhus_most %>% 
@@ -113,34 +91,9 @@ key_n_sources <-
 in3 <- key_n_sources %>% filter(n == 3)
 
 sjukhus_most %>% 
-  filter(source != "rc") %>% 
-  inner_join(in3) %>% 
+  inner_join(in3, "key") %>% 
   arrange(key) %>% 
   tidyr::spread(source, value) %>% 
   select(-n) %>% 
-  DT::datatable()
-```
-
-
-# Skillnader mellan sjukhus och sjukhus_inca
-
-De två viktigaste kodverken för RCC-arbete torde vara `sjukhus` respektive `sjukhus_inca`
-
-
-## Finns i sjukhus men saknas i sjukhus_inca
-
-```{r, echo = FALSE, message = FALSE}
-decoder:::sjukhus %>% 
-anti_join(decoder:::sjukhus_inca) %>% 
-  DT::datatable()
-
-```
-
-## Finns i sjukhus_inca men saknas i sjukhus
-
-```{r, echo = FALSE, message=FALSE}
-decoder:::sjukhus_inca %>% 
-anti_join(decoder:::sjukhus) %>% 
-  DT::datatable()
-
+  knitr::kable()
 ```

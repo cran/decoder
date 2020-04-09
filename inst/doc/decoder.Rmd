@@ -32,16 +32,15 @@ n <- 6
 s <- function(x) sample(x, n, replace = TRUE)
 
 incadata <- 
-    data.frame(KON_VALUE = s(1:2),
-               region = 1:6,
-               a_icdo3 = c("C446", "C749", "C159", "C709", "C475", "C320"),
-               a_tstad = c("0", "1", "1a", "1b", "1c", "2")
-)
+  data.frame(
+    KON_VALUE = s(1:2),
+    region = 1:6,
+    a_icdo3 = c("C446", "C749", "C159", "C709", "C475", "C320"),
+    a_tstad = c("0", "1", "1a", "1b", "1c", "2")
+  )
 knitr::kable(incadata)
 
 ```
-
-
 
 
 ## Manually specified decodings
@@ -50,10 +49,6 @@ knitr::kable(incadata)
 The default method takes an atomic vector with codes and a specification of how to translate these codes (see `?decode`).
 
 ```{r}
-
-# the package is automatically attached by the rcc package.
-# Use 'library(rcc)' if you have the rcc package installed or
-# attach only the decoder package by:
 library(decoder)
 
 decode(incadata$KON_VALUE, "kon")
@@ -203,19 +198,19 @@ code(unique, "snomed")
 
 In all examples above the so called keyvalue object were specified by a quoted name (such as "`kon`" or "`region`" etcetera). These names refer to internal package objects that can not be lazy loaded from the package but which can still be accesed by the tripple colon notation:
 ```{r}
-decoder:::kon
-decoder:::region
+kon
+region
 ```
 
 These objects might look like ordinary data.frames but they do have some extra attributes as described by `?as.keyvalue`.
 ```{r}
-attributes(decoder:::kon)
+attributes(kon)
 ```
 
 The _keyvalue11_ attribute indicates that "code" can be used as an inverse of "decode" for translations using this keyvalue obejct, hence without the problems as described for `snomed`. 
 The *standard_var_names* attribute provides a list with known names for the coded version of this variable when found in a data.frame (used by `decode.data.frame`).
 
-A complete list of all standard variable names can also be found in `decoder:::ALL_STANDARD_VAR_NAMES`:
+A complete list of all standard variable names can also be found in `ALL_STANDARD_VAR_NAMES` (internal object):
 ```{r}
 knitr::kable(head(decoder:::ALL_STANDARD_VAR_NAMES))
 ```
@@ -246,10 +241,3 @@ ex <- list(
 )
 knitr::kable(as.keyvalue(ex))
 ```
-
-
-
-# Comments and suggestion
-
-You are always welcome to suggest enhancement, such as added kayvalue objects (dictionaries), report bugs or point out pieces of unclear documentation etcetera at www.bitbucket.com/cancercentrum/decoder/issues
-

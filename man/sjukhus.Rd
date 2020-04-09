@@ -8,7 +8,7 @@
 Key-value codes for Swedish hospitals and some primary health care units.
 }
 \details{
-Data from Rockan. Note that this is an old version of the classification!
+Data from 'Rockan'. Note that this is an old version of the classification!
 See the reference link below for the new version.
 The old version should be used of historical reasons.
 One difference is for example that the Sahlgrenska university hospital is 
@@ -20,26 +20,41 @@ Note also that primary health care units did receive their own codes until
 1992 (?)
 but not later!
 }
-\references{
-\url{http://www.socialstyrelsen.se/klassificeringochkoder/andrakodverk/sjukhuskoder}
-}
 \seealso{
-Other key_value_data: \code{\link{distrikt}},
-  \code{\link{figo}}, \code{\link{forsamling}},
-  \code{\link{hemort}}, \code{\link{hsn}},
-  \code{\link{icd10}}, \code{\link{icd7_grov}},
-  \code{\link{icd7}}, \code{\link{icd9}},
-  \code{\link{icdo3_grov}}, \code{\link{icdo3}},
-  \code{\link{icdo}}, \code{\link{klinik}},
-  \code{\link{kommun}}, \code{\link{kon}},
-  \code{\link{lan}}, \code{\link{m_rtr}},
-  \code{\link{n_rtr}}, \code{\link{pad}},
-  \code{\link{patologiavdelning}}, \code{\link{rc}},
-  \code{\link{region}}, \code{\link{sida}},
-  \code{\link{sjukhus_inca}}, \code{\link{sjukhus_par}},
-  \code{\link{sjukvardsomrade}}, \code{\link{snomed3}},
-  \code{\link{snomed}}, \code{\link{t_rtr}},
-  \code{\link{tnmgrund}}
+Other key_value_data: 
+\code{\link{atc}},
+\code{\link{distrikt}},
+\code{\link{figo}},
+\code{\link{forsamling}},
+\code{\link{hemort}},
+\code{\link{hsn}},
+\code{\link{icd10}},
+\code{\link{icd7_grov}},
+\code{\link{icd7}},
+\code{\link{icd9cmd}},
+\code{\link{icd9}},
+\code{\link{icdo3_grov}},
+\code{\link{icdo3}},
+\code{\link{icdo}},
+\code{\link{klinik}},
+\code{\link{kommun}},
+\code{\link{kon}},
+\code{\link{kva}},
+\code{\link{lan}},
+\code{\link{m_rtr}},
+\code{\link{n_rtr}},
+\code{\link{pad}},
+\code{\link{patologiavdelning}},
+\code{\link{region}},
+\code{\link{rockan}},
+\code{\link{sida}},
+\code{\link{sjukhus_inca}},
+\code{\link{sjukhus_par}},
+\code{\link{sjukvardsomrade}},
+\code{\link{snomed3}},
+\code{\link{snomed}},
+\code{\link{t_rtr}},
+\code{\link{tnmgrund}}
 }
 \concept{key_value_data}
 \keyword{datasets}

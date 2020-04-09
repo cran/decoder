@@ -10,7 +10,3 @@ pad0 <- function(x, n) {
     vapply(n, function(l) paste(rep("0", l), collapse = ""), character(1)),
     as.character(x))
 }
-
-
-#' @import backports
-NULL

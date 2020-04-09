@@ -1,10 +1,12 @@
 context("formt_as_key")
 
 test_that("lkf", {
-  expect_true(all(nchar(format_as_key(forsamling$key, "lan")$x) <= 2))
+  suppressWarnings(
+    expect_true(all(nchar(format_as_key(forsamling$key, "lan")$x) <= 2)))
   expect_warning(format_as_key(forsamling$key, "lan"),
     "Only the first 2 characters are used.")
-  expect_true(all(nchar(format_as_key(forsamling$key, "kommun")$x) <= 4))
+  suppressWarnings(
+    expect_true(all(nchar(format_as_key(forsamling$key, "kommun")$x) <= 4)))
   expect_true(all(nchar(format_as_key(forsamling$key, "forsamling")$x) <= 6))
   expect_warning(format_as_key(".01", "lan"),
     "Punctuations are removed.")

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Erik Bulow" />
 
-<meta name="date" content="2019-01-08" />
+<meta name="date" content="2020-04-09" />
 
 <title>Decode coded variables to plain text (and vice versa)</title>
 
@@ -20,9 +20,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -32,14 +32,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +50,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -96,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -117,9 +119,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -288,8 +287,12 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
+
+
+
 
 </head>
 
@@ -299,8 +302,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <h1 class="title toc-ignore">Decode coded variables to plain text (and vice versa)</h1>
-<h4 class="author"><em>Erik Bulow</em></h4>
-<h4 class="date"><em>2019-01-08</em></h4>
+<h4 class="author">Erik Bulow</h4>
+<h4 class="date">2020-04-09</h4>
 
 
 
@@ -316,17 +319,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="example-for-decode" class="section level1">
 <h1>Example for “decode”</h1>
 <p>Assume we have a dataset with some (more or less) typical RCC-data:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">12345</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">s &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sample</span>(x, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">incadata &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">    </span><span class="kw">data.frame</span>(<span class="dt">KON_VALUE =</span> <span class="kw">s</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">               <span class="dt">region =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">               <span class="dt">a_icdo3 =</span> <span class="kw">c</span>(<span class="st">&quot;C446&quot;</span>, <span class="st">&quot;C749&quot;</span>, <span class="st">&quot;C159&quot;</span>, <span class="st">&quot;C709&quot;</span>, <span class="st">&quot;C475&quot;</span>, <span class="st">&quot;C320&quot;</span>),</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">               <span class="dt">a_tstad =</span> <span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;1a&quot;</span>, <span class="st">&quot;1b&quot;</span>, <span class="st">&quot;1c&quot;</span>, <span class="st">&quot;2&quot;</span>)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">knitr<span class="op">::</span><span class="kw">kable</span>(incadata)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>n &lt;-<span class="st"> </span><span class="dv">6</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>s &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sample</span>(x, n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>incadata &lt;-<span class="st"> </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="st">  </span><span class="kw">data.frame</span>(</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="dt">KON_VALUE =</span> <span class="kw">s</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>),</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="dt">region =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="dt">a_icdo3 =</span> <span class="kw">c</span>(<span class="st">&quot;C446&quot;</span>, <span class="st">&quot;C749&quot;</span>, <span class="st">&quot;C159&quot;</span>, <span class="st">&quot;C709&quot;</span>, <span class="st">&quot;C475&quot;</span>, <span class="st">&quot;C320&quot;</span>),</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    <span class="dt">a_tstad =</span> <span class="kw">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;1a&quot;</span>, <span class="st">&quot;1b&quot;</span>, <span class="st">&quot;1c&quot;</span>, <span class="st">&quot;2&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>  )</span>
+<span id="cb1-12"><a href="#cb1-12"></a>knitr<span class="op">::</span><span class="kw">kable</span>(incadata)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -344,7 +348,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td align="left">0</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
+<td align="right">1</td>
 <td align="right">2</td>
 <td align="left">C749</td>
 <td align="left">1</td>
@@ -362,13 +366,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td align="left">1b</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">5</td>
 <td align="left">C475</td>
 <td align="left">1c</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">6</td>
 <td align="left">C320</td>
 <td align="left">2</td>
@@ -378,25 +382,22 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="manually-specified-decodings" class="section level2">
 <h2>Manually specified decodings</h2>
 <p><code>decode</code> is a generic S3-function that accepts R-object of different kinds. The default method takes an atomic vector with codes and a specification of how to translate these codes (see <code>?decode</code>).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># the package is automatically attached by the rcc package.</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># Use 'library(rcc)' if you have the rcc package installed or</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># attach only the decoder package by:</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">library</span>(decoder)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">decode</span>(incadata<span class="op">$</span>KON_VALUE, <span class="st">&quot;kon&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;Kvinna&quot; &quot;Kvinna&quot; &quot;Kvinna&quot; &quot;Kvinna&quot; &quot;Man&quot;    &quot;Man&quot;</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">decode</span>(incadata<span class="op">$</span>a_tstad, <span class="st">&quot;t_rtr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(decoder)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">decode</span>(incadata<span class="op">$</span>KON_VALUE, <span class="st">&quot;kon&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Kvinna&quot; &quot;Man&quot;    &quot;Kvinna&quot; &quot;Kvinna&quot; &quot;Kvinna&quot; &quot;Kvinna&quot;</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">decode</span>(incadata<span class="op">$</span>a_tstad, <span class="st">&quot;t_rtr&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;T0&quot;  &quot;T1&quot;  &quot;T1a&quot; &quot;T1b&quot; &quot;T1c&quot; &quot;T2&quot;</code></pre>
 <p>See <code>?key_value_data</code> for a list of all available keyvalue objects included in the package.</p>
 </div>
 <div id="the-whole-data.frame-at-once" class="section level2">
 <h2>The whole data.frame at once</h2>
 <p>There is also a method for data.frames, where translations are made automatically for columns with recognised names.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">incadata_decoded &lt;-<span class="st"> </span><span class="kw">decode</span>(incadata)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>incadata_decoded &lt;-<span class="st"> </span><span class="kw">decode</span>(incadata)</span></code></pre></div>
 <pre><code>## New decoded columns added: 
 ## * KON_VALUE_kon_beskrivning
 ## * region_region_beskrivning</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(incadata_decoded)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(incadata_decoded)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -418,11 +419,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td align="left">Region Sthlm/Gotland</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
+<td align="right">1</td>
 <td align="right">2</td>
 <td align="left">C749</td>
 <td align="left">1</td>
-<td align="left">Kvinna</td>
+<td align="left">Man</td>
 <td align="left">Region Uppsala/Örebro</td>
 </tr>
 <tr class="odd">
@@ -442,19 +443,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td align="left">Region Syd</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">5</td>
 <td align="left">C475</td>
 <td align="left">1c</td>
-<td align="left">Man</td>
+<td align="left">Kvinna</td>
 <td align="left">Region Väst</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">6</td>
 <td align="left">C320</td>
 <td align="left">2</td>
-<td align="left">Man</td>
+<td align="left">Kvinna</td>
 <td align="left">Region Norr</td>
 </tr>
 </tbody>
@@ -469,37 +470,37 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="several-keyvalues-for-the-same-code" class="section level2">
 <h2>Several keyvalues for the same code</h2>
 <p>Note that the same coded variable might be decoded by more than one keyvalue-object, for example the “a_icdo3”-variable is automatically decoded by the “icdo3” keyvalue object (see <code>?icdo3</code>) with a dictionary from Rockan. ICD-O3 however, can also be seen as a “developed subset” of ICD10, wherefore:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">decode</span>(incadata<span class="op">$</span>a_icdo3, <span class="st">&quot;icd10&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;Malign tumör i huden på övre extremiteten inklusive skuldran&quot;                  
-## [2] &quot;Icke specificerad lokalisation av malign tumör i binjure&quot;                      
-## [3] &quot;Icke specificerad lokalisation av malign tumör i esofagus&quot;                     
-## [4] &quot;Icke specificerad lokalisation av malign tumör i centrala nervsystemets hinnor&quot;
-## [5] &quot;Malign tumör i perifera nerver i bäckenet&quot;                                     
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">decode</span>(incadata<span class="op">$</span>a_icdo3, <span class="st">&quot;icd10&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Malign tumör i huden på övre extremiteten inklusive skuldran&quot;              
+## [2] &quot;Ospecificerad lokalisation av malign tumör i binjure&quot;                      
+## [3] &quot;Ospecificerad lokalisation av malign tumör i esofagus&quot;                     
+## [4] &quot;Ospecificerad lokalisation av malign tumör i centrala nervsystemets hinnor&quot;
+## [5] &quot;Malign tumör i perifera nerver i bäckenet&quot;                                 
 ## [6] &quot;Malign tumör i glottis&quot;</code></pre>
 <p>“icd10”, can also decode non oncological desease codes:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">decode</span>(<span class="kw">c</span>(<span class="st">&quot;D448A&quot;</span>, <span class="st">&quot;T009&quot;</span>, <span class="st">&quot;F182&quot;</span>, <span class="st">&quot;S134C&quot;</span>, <span class="st">&quot;C131&quot;</span>), <span class="st">&quot;icd10&quot;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;Tumör med multiglandulär lokalisation, Typ I&quot;                                                  
-## [2] &quot;Multipla ytliga skador, ospecificerade&quot;                                                        
-## [3] &quot;Psykiska störningar och beteendestörningar orsakade av flyktiga lösningsmedel, beroendesyndrom&quot;
-## [4] &quot;Whiplash-skada, WAD III&quot;                                                                       
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">decode</span>(<span class="kw">c</span>(<span class="st">&quot;D448A&quot;</span>, <span class="st">&quot;T009&quot;</span>, <span class="st">&quot;F182&quot;</span>, <span class="st">&quot;S134C&quot;</span>, <span class="st">&quot;C131&quot;</span>), <span class="st">&quot;icd10&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Tumör med multiglandulär lokalisation, typ I&quot;                                                 
+## [2] &quot;Multipla ytliga skador, ospecificerade&quot;                                                       
+## [3] &quot;Psykiska störningar och beteendestörningar orsakade av flyktiga lösningsmedel-Beroendesyndrom&quot;
+## [4] &quot;Whiplash-skada, WAD III&quot;                                                                      
 ## [5] &quot;Malign tumör i aryepiglottiska vecket, hypofaryngeala delen&quot;</code></pre>
 </div>
 <div id="exact-versus-non-exact-decoding" class="section level2">
 <h2>Exact versus non exact decoding</h2>
 <p>So far, we have looked only on cases where the code can be littaraly translated by the keyvalue object. There is however a third argument to the decode function, <code>exact</code>, which is <code>FALSE</code> by default. It is often useful to allow some automatic transformation for variables that we know are coded values but that are not exactly the same as in the keyvalue object. The most common application is probably when we want to extract the municipality names from an LKF-variable. This can obviosly be done by:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">178405</span>, <span class="dv">138408</span>, <span class="dv">108202</span>, <span class="dv">128706</span>, <span class="dv">048005</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">substring</span>(<span class="kw">as.character</span>(x), <span class="dv">1</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">decode</span>(y, <span class="st">&quot;kommun&quot;</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">178405</span>, <span class="dv">138408</span>, <span class="dv">108202</span>, <span class="dv">128706</span>, <span class="dv">048005</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>y &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">substring</span>(<span class="kw">as.character</span>(x), <span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">decode</span>(y, <span class="st">&quot;kommun&quot;</span>, <span class="dt">exact =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## Warning: Some codes could not be translated (4800)</code></pre>
 <pre><code>## [1] &quot;Arvika&quot;     &quot;Kungsbacka&quot; &quot;Karlshamn&quot;  &quot;Trelleborg&quot; NA</code></pre>
 <p>But it is also possible to use the original six digit code as is:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">decode</span>(x, <span class="st">&quot;kommun&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">decode</span>(x, <span class="st">&quot;kommun&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: transformed to match the keyvalue: Only the first 4 characters are
 ## used.</code></pre>
 <pre><code>## Warning: Some codes could not be translated (48005)</code></pre>
 <pre><code>## [1] &quot;Arvika&quot;     &quot;Kungsbacka&quot; &quot;Karlshamn&quot;  &quot;Trelleborg&quot; NA</code></pre>
 <p>Note here that the last value decodes to <code>NA</code> in both cases. It would be preffered to have the original codes stored as character, since that preserves the leading 0 in “048005”:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">decode</span>(<span class="st">&quot;048005&quot;</span>, <span class="st">&quot;kommun&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">decode</span>(<span class="st">&quot;048005&quot;</span>, <span class="st">&quot;kommun&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: transformed to match the keyvalue: Only the first 4 characters are
 ## used.</code></pre>
 <pre><code>## [1] &quot;Nyköping&quot;</code></pre>
@@ -509,11 +510,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="more-than-one-decoded-variable-from-the-same-code" class="section level2">
 <h2>More than one decoded variable from the same code</h2>
 <p>Using non exact decoding, the same code might be simultaneously decoded by more that one keyvalue object using the data.frame method:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">df &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">    <span class="dt">LKF =</span> <span class="kw">c</span>(<span class="st">&quot;149804&quot;</span>, <span class="st">&quot;147104&quot;</span>, <span class="st">&quot;012704&quot;</span>, <span class="st">&quot;143505&quot;</span>, <span class="st">&quot;126502&quot;</span>, <span class="st">&quot;232602&quot;</span>)</a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">  )</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">suppressWarnings</span>(<span class="kw">decode</span>(df)))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>df &lt;-<span class="st"> </span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">data.frame</span>(</span>
+<span id="cb23-3"><a href="#cb23-3"></a>    <span class="dt">LKF =</span> <span class="kw">c</span>(<span class="st">&quot;149804&quot;</span>, <span class="st">&quot;147104&quot;</span>, <span class="st">&quot;012704&quot;</span>, <span class="st">&quot;143505&quot;</span>, <span class="st">&quot;126502&quot;</span>, <span class="st">&quot;232602&quot;</span>)</span>
+<span id="cb23-4"><a href="#cb23-4"></a>  )</span>
+<span id="cb23-5"><a href="#cb23-5"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">suppressWarnings</span>(<span class="kw">decode</span>(df)))</span></code></pre></div>
 <pre><code>## New decoded columns added: 
 ## * LKF_kommun_beskrivning
 ## * LKF_forsamling_beskrivning
@@ -588,16 +589,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Extra functions</h2>
 <p>The atomic vector method has an additional argument <code>extra_functions</code> that can be used to modify the outcome of the decoded variable. Read the man page (<code>?decode</code>) for more details and a complete list of available extra functions.</p>
 <p>The default regional names used from INCA are used by default by the “region” keyvalue:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">decode</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="st">&quot;region&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">decode</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="st">&quot;region&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Region Sthlm/Gotland&quot;  &quot;Region Uppsala/Örebro&quot; &quot;Region Sydöstra&quot;      
 ## [4] &quot;Region Syd&quot;            &quot;Region Väst&quot;           &quot;Region Norr&quot;</code></pre>
 <p>Sometimes it is however more convenient to use an abbriviated form of these names such as:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">decode</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="st">&quot;region&quot;</span>, <span class="st">&quot;short_region_names&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">decode</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="st">&quot;region&quot;</span>, <span class="st">&quot;short_region_names&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Sthlm/Gotland&quot;  &quot;Uppsala/Örebro&quot; &quot;Sydöstra&quot;       &quot;Syd&quot;           
 ## [5] &quot;Väst&quot;           &quot;Norr&quot;</code></pre>
 <p>This could also be achieved by an additional keyvalue object containing the hard coded short names but an additional advantage with the “extra_function” method is that several extra functions can be chained:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">munic_west &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1382&quot;</span>, <span class="st">&quot;1419&quot;</span>, <span class="st">&quot;1441&quot;</span>, <span class="st">&quot;1460&quot;</span>, <span class="st">&quot;1472&quot;</span>, <span class="st">&quot;1488&quot;</span>, <span class="st">&quot;1496&quot;</span>)</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">decode</span>(munic_west, <span class="st">&quot;sjukvardsomrade&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;kungalv2Storgoteborg&quot;</span>, <span class="st">&quot;real_names&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>munic_west &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1382&quot;</span>, <span class="st">&quot;1419&quot;</span>, <span class="st">&quot;1441&quot;</span>, <span class="st">&quot;1460&quot;</span>, <span class="st">&quot;1472&quot;</span>, <span class="st">&quot;1488&quot;</span>, <span class="st">&quot;1496&quot;</span>)</span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="kw">decode</span>(munic_west, <span class="st">&quot;sjukvardsomrade&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;kungalv2Storgoteborg&quot;</span>, <span class="st">&quot;real_names&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;Norra Halland&quot;  &quot;Storgöteborg&quot;   &quot;Södra Älvsborg&quot; &quot;Fyrbodal&quot;      
 ## [5] &quot;Skaraborg&quot;      &quot;Fyrbodal&quot;       &quot;Skaraborg&quot;</code></pre>
 </div>
@@ -605,15 +606,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="example-for-code-the-opposite-of-decode" class="section level1">
 <h1>Example for “code” (the opposite of decode)</h1>
 <p>In the simplest situation (with a 1:1 relation between the code and its value), <code>code</code> is just the inverse of <code>decode</code>:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">code</span>(<span class="kw">c</span>(<span class="st">&quot;Karlskrona&quot;</span>, <span class="st">&quot;Göteborg&quot;</span>, <span class="st">&quot;Härnösand&quot;</span>), <span class="st">&quot;kommun&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">code</span>(<span class="kw">c</span>(<span class="st">&quot;Karlskrona&quot;</span>, <span class="st">&quot;Göteborg&quot;</span>, <span class="st">&quot;Härnösand&quot;</span>), <span class="st">&quot;kommun&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;1080&quot; &quot;1480&quot; &quot;2280&quot;</code></pre>
 <p><code>decode</code> does however also allow translation with m:1 dictionaries such as <code>snomed</code> (which gives a differnt result than <code>snomed3</code>):</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">non_unique &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">90703</span>, <span class="dv">90723</span>, <span class="dv">96153</span>, <span class="dv">99403</span>, <span class="dv">89643</span>, <span class="dv">90443</span>)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw">decode</span>(non_unique, <span class="st">&quot;snomed&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>non_unique &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">90703</span>, <span class="dv">90723</span>, <span class="dv">96153</span>, <span class="dv">99403</span>, <span class="dv">89643</span>, <span class="dv">90443</span>)</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="kw">decode</span>(non_unique, <span class="st">&quot;snomed&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Embryonalt carcinom&quot; &quot;Embryonalt carcinom&quot; &quot;Hårcellsleukemi&quot;    
 ## [4] &quot;Hårcellsleukemi&quot;     &quot;Klarcellssarkom&quot;     &quot;Klarcellssarkom&quot;</code></pre>
 <p>This decoding can not be inverted:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">code</span>(<span class="kw">decode</span>(non_unique, <span class="st">&quot;snomed&quot;</span>), <span class="st">&quot;snomed&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">code</span>(<span class="kw">decode</span>(non_unique, <span class="st">&quot;snomed&quot;</span>), <span class="st">&quot;snomed&quot;</span>)</span></code></pre></div>
 <pre><code>##       key               value
 ## 393 90703 Embryonalt carcinom
 ## 402 90723 Embryonalt carcinom
@@ -623,29 +624,29 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## 381 90443     Klarcellssarkom</code></pre>
 <pre><code>## Error in code(decode(non_unique, &quot;snomed&quot;), &quot;snomed&quot;): Values above have a non unique relation to their key!</code></pre>
 <p>This restriction only applies when the requested values are de facto non unique. It is not tied to the keyvalue object as such.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">unique &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">  <span class="st">&quot;Mucinöst kystadenom (kystom) borderline-typ ( 2 B)&quot;</span>, </a>
-<a class="sourceLine" id="cb38-3" data-line-number="3">  <span class="st">&quot;Medullärt carcinom, atypiskt&quot;</span>, </a>
-<a class="sourceLine" id="cb38-4" data-line-number="4">  <span class="st">&quot;Mb Paget non invasiv och intraduktal&quot;</span>, </a>
-<a class="sourceLine" id="cb38-5" data-line-number="5">  <span class="st">&quot;Lymfangiosarcom, misst&quot;</span>, </a>
-<a class="sourceLine" id="cb38-6" data-line-number="6">  <span class="st">&quot;Fibröst histiocytom, malignt&quot;</span>, </a>
-<a class="sourceLine" id="cb38-7" data-line-number="7">  <span class="st">&quot;Ganglioneurom&quot;</span>, </a>
-<a class="sourceLine" id="cb38-8" data-line-number="8">  <span class="st">&quot;Carcinoid (exkl appendix)&quot;</span>, </a>
-<a class="sourceLine" id="cb38-9" data-line-number="9">  <span class="st">&quot;Langerhans cell histiocytos, UNS, Histiocytosis X, UNS&quot;</span>, </a>
-<a class="sourceLine" id="cb38-10" data-line-number="10">  <span class="st">&quot;Brenner tumör, malign&quot;</span>, </a>
-<a class="sourceLine" id="cb38-11" data-line-number="11">  <span class="st">&quot;Lymfatisk leukemi, UNS&quot;</span>)</a>
-<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="kw">code</span>(unique, <span class="st">&quot;snomed&quot;</span>)</a></code></pre></div>
-<pre><code>##  [1] &quot;84723&quot; &quot;85133&quot; &quot;85432&quot; &quot;91701&quot; &quot;88303&quot; &quot;94900&quot; &quot;82403&quot; &quot;97511&quot;
-##  [9] &quot;90003&quot; &quot;98203&quot;</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>unique &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb38-2"><a href="#cb38-2"></a>  <span class="st">&quot;Mucinöst kystadenom (kystom) borderline-typ ( 2 B)&quot;</span>, </span>
+<span id="cb38-3"><a href="#cb38-3"></a>  <span class="st">&quot;Medullärt carcinom, atypiskt&quot;</span>, </span>
+<span id="cb38-4"><a href="#cb38-4"></a>  <span class="st">&quot;Mb Paget non invasiv och intraduktal&quot;</span>, </span>
+<span id="cb38-5"><a href="#cb38-5"></a>  <span class="st">&quot;Lymfangiosarcom, misst&quot;</span>, </span>
+<span id="cb38-6"><a href="#cb38-6"></a>  <span class="st">&quot;Fibröst histiocytom, malignt&quot;</span>, </span>
+<span id="cb38-7"><a href="#cb38-7"></a>  <span class="st">&quot;Ganglioneurom&quot;</span>, </span>
+<span id="cb38-8"><a href="#cb38-8"></a>  <span class="st">&quot;Carcinoid (exkl appendix)&quot;</span>, </span>
+<span id="cb38-9"><a href="#cb38-9"></a>  <span class="st">&quot;Langerhans cell histiocytos, UNS, Histiocytosis X, UNS&quot;</span>, </span>
+<span id="cb38-10"><a href="#cb38-10"></a>  <span class="st">&quot;Brenner tumör, malign&quot;</span>, </span>
+<span id="cb38-11"><a href="#cb38-11"></a>  <span class="st">&quot;Lymfatisk leukemi, UNS&quot;</span>)</span>
+<span id="cb38-12"><a href="#cb38-12"></a><span class="kw">code</span>(unique, <span class="st">&quot;snomed&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;84723&quot; &quot;85133&quot; &quot;85432&quot; &quot;91701&quot; &quot;88303&quot; &quot;94900&quot; &quot;82403&quot; &quot;97511&quot; &quot;90003&quot;
+## [10] &quot;98203&quot;</code></pre>
 </div>
 <div id="the-underlying-machinery" class="section level1">
 <h1>The underlying machinery</h1>
 <p>In all examples above the so called keyvalue object were specified by a quoted name (such as “<code>kon</code>” or “<code>region</code>” etcetera). These names refer to internal package objects that can not be lazy loaded from the package but which can still be accesed by the tripple colon notation:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">decoder<span class="op">:::</span>kon</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>kon</span></code></pre></div>
 <pre><code>##   key  value
 ## 1   1    Man
 ## 2   2 Kvinna</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">decoder<span class="op">:::</span>region</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>region</span></code></pre></div>
 <pre><code>##   key                 value
 ## 1   1  Region Sthlm/Gotland
 ## 2   2 Region Uppsala/Örebro
@@ -654,7 +655,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## 5   5           Region Väst
 ## 6   6           Region Norr</code></pre>
 <p>These objects might look like ordinary data.frames but they do have some extra attributes as described by <code>?as.keyvalue</code>.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">attributes</span>(decoder<span class="op">:::</span>kon)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw">attributes</span>(kon)</span></code></pre></div>
 <pre><code>## $names
 ## [1] &quot;key&quot;   &quot;value&quot;
 ## 
@@ -670,8 +671,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## $class
 ## [1] &quot;keyvalue&quot;   &quot;data.frame&quot;</code></pre>
 <p>The <em>keyvalue11</em> attribute indicates that “code” can be used as an inverse of “decode” for translations using this keyvalue obejct, hence without the problems as described for <code>snomed</code>. The <em>standard_var_names</em> attribute provides a list with known names for the coded version of this variable when found in a data.frame (used by <code>decode.data.frame</code>).</p>
-<p>A complete list of all standard variable names can also be found in <code>decoder:::ALL_STANDARD_VAR_NAMES</code>:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(decoder<span class="op">:::</span>ALL_STANDARD_VAR_NAMES))</a></code></pre></div>
+<p>A complete list of all standard variable names can also be found in <code>ALL_STANDARD_VAR_NAMES</code> (internal object):</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(decoder<span class="op">:::</span>ALL_STANDARD_VAR_NAMES))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -694,15 +695,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr class="even">
 <td align="left">dödca</td>
-<td align="left">dödca</td>
+<td align="left">dodca</td>
 </tr>
 <tr class="odd">
-<td align="left">figo</td>
-<td align="left">figo</td>
+<td align="left">dodca</td>
+<td align="left">dodca</td>
 </tr>
 <tr class="even">
-<td align="left">a_lkf</td>
-<td align="left">forsamling</td>
+<td align="left">figo</td>
+<td align="left">figo</td>
 </tr>
 </tbody>
 </table>
@@ -712,21 +713,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h1>Examples how to create keyvalue objects</h1>
 <p>It might sometimes come handy to create your own keyvalue objects for a specific project. The S3-generic <code>as.keyvalue</code> has several methods for this.</p>
 <p>For small dictionaries, a named vector might be sufficient:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">(kv &lt;-<span class="st"> </span><span class="kw">as.keyvalue</span>(<span class="kw">c</span>(<span class="st">&quot;car&quot;</span> =<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;bike&quot;</span> =<span class="st"> </span><span class="dv">2</span>, <span class="st">&quot;bus&quot;</span> =<span class="st"> </span><span class="dv">3</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>(kv &lt;-<span class="st"> </span><span class="kw">as.keyvalue</span>(<span class="kw">c</span>(<span class="st">&quot;car&quot;</span> =<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;bike&quot;</span> =<span class="st"> </span><span class="dv">2</span>, <span class="st">&quot;bus&quot;</span> =<span class="st"> </span><span class="dv">3</span>)))</span></code></pre></div>
 <pre><code>##   key value
 ## 1   1   car
 ## 2   2  bike
 ## 3   3   bus</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">s</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw">decode</span>(x, kv)</a></code></pre></div>
-<pre><code>## [1] &quot;car&quot;  &quot;bike&quot; &quot;bus&quot;  &quot;bus&quot;  &quot;car&quot;  &quot;car&quot;</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>x &lt;-<span class="st"> </span><span class="kw">s</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</span>
+<span id="cb49-2"><a href="#cb49-2"></a><span class="kw">decode</span>(x, kv)</span></code></pre></div>
+<pre><code>## [1] &quot;bike&quot; &quot;car&quot;  &quot;bus&quot;  &quot;bike&quot; &quot;bike&quot; &quot;bus&quot;</code></pre>
 <p>Longer dictionaries might be more convenient to read from disk and coerce to keyvalue objects using the data.frame method. Dictionaries with a lot of values for every key, can also be specified by a list method:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">ex &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">         <span class="dt">fruit  =</span> <span class="kw">c</span>(<span class="st">&quot;banana&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;kiwi&quot;</span>),</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">         <span class="dt">car    =</span> <span class="kw">c</span>(<span class="st">&quot;SAAB&quot;</span>, <span class="st">&quot;Volvo&quot;</span>, <span class="st">&quot;taxi&quot;</span>, <span class="st">&quot;truck&quot;</span>),</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">         <span class="dt">animal =</span> <span class="kw">c</span>(<span class="st">&quot;elephant&quot;</span>)</a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb51-6" data-line-number="6">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">as.keyvalue</span>(ex))</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>ex &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb51-2"><a href="#cb51-2"></a>         <span class="dt">fruit  =</span> <span class="kw">c</span>(<span class="st">&quot;banana&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;kiwi&quot;</span>),</span>
+<span id="cb51-3"><a href="#cb51-3"></a>         <span class="dt">car    =</span> <span class="kw">c</span>(<span class="st">&quot;SAAB&quot;</span>, <span class="st">&quot;Volvo&quot;</span>, <span class="st">&quot;taxi&quot;</span>, <span class="st">&quot;truck&quot;</span>),</span>
+<span id="cb51-4"><a href="#cb51-4"></a>         <span class="dt">animal =</span> <span class="kw">c</span>(<span class="st">&quot;elephant&quot;</span>)</span>
+<span id="cb51-5"><a href="#cb51-5"></a>)</span>
+<span id="cb51-6"><a href="#cb51-6"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">as.keyvalue</span>(ex))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -779,11 +780,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tbody>
 </table>
 </div>
-<div id="comments-and-suggestion" class="section level1">
-<h1>Comments and suggestion</h1>
-<p>You are always welcome to suggest enhancement, such as added kayvalue objects (dictionaries), report bugs or point out pieces of unclear documentation etcetera at www.bitbucket.com/cancercentrum/decoder/issues</p>
-</div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

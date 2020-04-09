@@ -37,16 +37,3 @@ real_names <- function(x){
 short_region_names <- function(x){
     gsub("Region ", "", as.character(x))
 }
-
-#' @rdname extra_functions
-#' @export
-sjukhus_rc_namn <- function(x) {
-  decode(x, "sjukhus_rc_code2klartext")
-}
-  
-
-#' @rdname extra_functions
-#' @export
-forvaltning_rc_namn <- function(x) {
-  decode(x, "forvaltning_rc_code2klartext")
-}

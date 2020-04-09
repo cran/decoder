@@ -8,7 +8,7 @@ test_that("as.key", {
 
 
 test_that("is.key", {
-  expect_true(is.key(snomed$key))
-  expect_false(is.key(snomed$value))
-  expect_true(is.key(kon$value))
+  expect_true(is.key(decoder::snomed$key))
+  expect_false(is.key(decoder::snomed$value))
+  expect_true(is.key(decoder::kon$value))
 })

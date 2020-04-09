@@ -7,8 +7,8 @@ as.keyvalue.default <- function(x, y, ...){
   
   # Possibly get keyvalue object by name 
   if (length(x) == 1 && is.character(x) && 
-      is.null(names(x)) && missing(y) && exists(x))
-    return(as.keyvalue(get(x)))
+      is.null(names(x)) && missing(y) && exists(x, envir = as.environment("package:decoder")))
+    return(as.keyvalue(get(x, envir = as.environment("package:decoder"))))
   
   ## If only x supplied, x should be a named vector
   if (missing(y)) {

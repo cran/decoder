@@ -27,11 +27,9 @@
 #' @export
 #' @seealso \link{as.keyvalue.list}, \link{decode}, \link{summary.keyvalue}, \link{key_and_value}
 #' @examples
-#' snomed <- decoder:::snomed
 #' snomed2 <- as.keyvalue(snomed)
 #' is.keyvalue(snomed2)
 #' summary(snomed2)
-
 as.keyvalue <- function(x, ...){
     UseMethod("as.keyvalue")
 }

@@ -1,13 +1,8 @@
-################################################################################
-#                                                                              #
-#                              Geographical codes                              #
-#                                                                              #
-################################################################################
+# Geography ---------------------------------------------------------------
 
-
-#' Regional code
+#' Swedish health care regional codes
 #'
-#' Key-value codes for the Swedish healthcare regions (1-6).
+#' Key-value codes for the Swedish health care regions (1-6).
 #'
 #' @docType data
 #' @keywords datasets
@@ -16,12 +11,10 @@
 NULL
 
 
-
-
-#' Lan code (county code)
+#' Swedish county codes
 #'
 #' Key-value codes for the Swedish counties (lan).
-#' Two first digits in the LKF code.
+#' Two first digits of the LKF code.
 #' Be aware of the spelling ("lan")!
 #'
 #' @docType data
@@ -31,9 +24,7 @@ NULL
 NULL
 
 
-
-
-#' Distrikt code (district code)
+#' Swedish district codes
 #'
 #' Key-value codes for the Swedish districts (introduced 2016-01-01).
 #'
@@ -41,35 +32,34 @@ NULL
 #' @keywords datasets
 #' @name distrikt
 #' @family key_value_data
-#' @seealso \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/distrikt/}
+#' @source \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/distrikt/}
 NULL
 
 
-
-#' Geographical healthcare areas
+#' Geographical health care areas
 #'
 #' Key-value codes for health care areas.
 #'
 #' \itemize{
-#'      \item{Key: the first four digits from the LKF-code}
-#'      \item{Value: A geographical area (sub area of county/lan) with special 
-#'      interest}
+#'   \item{Key: the first four digits from the LKF-code}
+#'   \item{Value: A geographical area (sub area of county/lan) with special 
+#'     interest}
 #' }
 #'
-#' The object currently only applies to the Western healthcare region
+#' The object currently only applies to the Western health care region
 #' \itemize{
-#'      \item{Storgoteborg}
-#'      \item{Fyrbodal}
-#'      \item{Sodra_Alvsborg}
-#'      \item{Skaraborg}
-#'      \item{Norra_Halland}
+#'   \item{Storgoteborg}
+#'   \item{Fyrbodal}
+#'   \item{Sodra_Alvsborg}
+#'   \item{Skaraborg}
+#'   \item{Norra_Halland}
 #' }
 #' Updates for other regions needs to be requested (please do!).
 #'
 #' @section Kungalv:
 #'  Kungalv is an independent area by default. There are situations when Kungalv 
 #'  should be dealt with as an
-#'  independent healthcare region or as a part of Storgoteborg. 
+#'  independent health care region or as a part of greater Gothenburg. 
 #'  See section "extra_functions" in \link{decode}
 #'  to handle this.
 #'
@@ -81,9 +71,7 @@ NULL
 NULL
 
 
-
-
-#' HSN code (Hälso- och sjukvårdsnämnd)
+#' HSN code (Hälso- och sjukvårdsnamnd)
 #'
 #' Key-value codes for the HSN:s in VGR valid from 2015.
 #' Based on municipality codes (\code{\link{kommun}}).
@@ -108,10 +96,9 @@ NULL
 NULL
 
 
-
-#' Kommun code (municipality code)
+#' Swedish municipality codes
 #'
-#' Key-value codes for the Swedish municipalities (kommuner).
+#' Key-value codes for the Swedish municipalities.
 #' First four digits in the LKF code.
 #' Data from 2014-08-12.
 #'
@@ -119,25 +106,20 @@ NULL
 #' @keywords datasets
 #' @name kommun
 #' @family key_value_data
-#' @references \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
+#' @source \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
 NULL
 
 
-#' Forsamling (parish code)
+#' Swedish parish codes
 #'
 #' Key-value codes for the Swedish parishes (forsamlingar).
 #' All six digits in the LKF code.
 #' 
-#' @section forsamling:
-#' Data from SCB 2014-08-12 according to reference.
-#' Be aware of the spelling ("forsamling").
-#' Contains 1377 key-value pairs.
-#'
 #' @docType data
 #' @keywords datasets
 #' @name forsamling
 #' @family key_value_data
-#' @references \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
+#' @source \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
 NULL
 
 
@@ -159,18 +141,16 @@ NULL
 #' @name hemort2
 NULL
 
-################################################################################
-#                                                                              #
-#                             Administrative codes                             #
-#                                                                              #
-################################################################################
+
+
+# Administration ----------------------------------------------------------
 
 
 #' Hospital codes
 #'
 #' Key-value codes for Swedish hospitals and some primary health care units.
 #'
-#' Data from Rockan. Note that this is an old version of the classification!
+#' Data from 'Rockan'. Note that this is an old version of the classification!
 #' See the reference link below for the new version.
 #' The old version should be used of historical reasons.
 #' One difference is for example that the Sahlgrenska university hospital is 
@@ -186,40 +166,8 @@ NULL
 #' @keywords datasets
 #' @name sjukhus
 #' @family key_value_data
-#' @references \url{http://www.socialstyrelsen.se/klassificeringochkoder/andrakodverk/sjukhuskoder}
-NULL
 
-#' Codes used by RC's kvartalen
-#' 
-#'  Key-value codes for VGR hospitals and organizational units according to RC.
-#'  
-#'  Function \code{sjukhus_rc_namn} and \code{forvaltning_rc_namn}
-#'  (see\code{\link{extra_functions}}) can be 
-#'  used to translate codes into text, see examples below.
-#'  
-#' @seealso See the vignette \code{vignette("RC_units", "decoder")} 
-#'  for more details and examples (Swedish).
-#'  
-#' @examples 
-#'  # From RCC hospital code to RC hospital code
-#'  decode(51012, "sjukhus_rc")
-#'  
-#'  # From RCC code to RC name
-#'  decode(51012, "sjukhus_rc", "sjukhus_rc_namn")
-#'  
-#'  # From RCC hospital code to RC organizational unit code
-#'  decode(51012, "forvaltning_rc")
-#'  
-#'  # From RCC code to RC name
-#'  decode(51012, "forvaltning_rc", "forvaltning_rc_namn")
-#'      
-#' @docType data
-#' @keywords datasets
-#' @name rc
-#' @aliases sjukhus_rc forvaltning_rc
-#' @family key_value_data
 NULL
-
 
 
 #' Hospital codes used by Socialstyrelsen and the National Patient Register
@@ -230,7 +178,7 @@ NULL
 #' @keywords datasets
 #' @name sjukhus_par
 #' @family key_value_data
-#' @references \url{http://www.socialstyrelsen.se/klassificeringochkoder/andrakodverk/sjukhuskoder}
+
 NULL
 
 
@@ -255,10 +203,7 @@ NULL
 #' @keywords datasets
 #' @name klinik
 #' @family key_value_data
-#' @references \url{http://www.socialstyrelsen.se/klassificeringochkoder/andrakodverk/sjukhuskoder}
 NULL
-
-
 
 
 #' Pathology department codes
@@ -276,15 +221,22 @@ NULL
 #' @keywords datasets
 #' @name patologiavdelning
 #' @family key_value_data
-#' @references \url{http://www.socialstyrelsen.se/SiteCollectionDocuments/sosfs-2006-15-bilaga-5.pdf}
 NULL
 
 
-################################################################################
-#                                                                              #
-#                              Diagnostics codes                               #
-#                                                                              #
-################################################################################
+
+# Diagnostics -------------------------------------------------------------
+
+#' Klassifikation av vardatgarder (KVA)
+#'
+#' Key-value codes for KVA (for surgery and medicine.
+#'
+#' @docType data
+#' @keywords datasets
+#' @name kva
+#' @family key_value_data
+#' @source \url{https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/kva/}
+NULL
 
 
 #' M-stadium
@@ -298,6 +250,7 @@ NULL
 #' @family key_value_data
 NULL
 
+
 #' N-stadium
 #'
 #' Key-value codes for N-stadium (sep-03).
@@ -309,6 +262,7 @@ NULL
 #' @family key_value_data
 NULL
 
+
 #' T-stadium
 #'
 #' Key-value codes for T-stadium (sep 2003).
@@ -319,6 +273,7 @@ NULL
 #' @name t_rtr
 #' @family key_value_data
 NULL
+
 
 #' FIGO-stadium
 #'
@@ -336,8 +291,6 @@ NULL
 #'
 #' Key-value codes for just the first three digits of the ICDO-7 code.
 #' This gives broader grouping.
-#' Based on the grouping used by:
-#' \url{http://www.socialstyrelsen.se/statistik/statistikdatabas/cancer}
 #'
 #' @docType data
 #' @keywords datasets
@@ -357,6 +310,7 @@ NULL
 #' @family key_value_data
 NULL
 
+
 #' ICD-9
 #'
 #' Key-value codes for ICD-9.
@@ -367,6 +321,7 @@ NULL
 #' @name icd9
 #' @family key_value_data
 NULL
+
 
 #' ICD-O
 #'
@@ -379,6 +334,7 @@ NULL
 #' @family key_value_data
 NULL
 
+
 #' ICD-O3
 #'
 #' Key-value codes for ICD-O3.
@@ -389,6 +345,7 @@ NULL
 #' @name icdo3
 #' @family key_value_data
 NULL
+
 
 #' ICD-O3 Grov
 #'
@@ -403,6 +360,7 @@ NULL
 #' @family key_value_data
 NULL
 
+
 #' Sida
 #'
 #' Key-value codes for sida (Sida, 1 = Hoger, 2 = Vanster, 9 = Okant).
@@ -413,6 +371,7 @@ NULL
 #' @name sida
 #' @family key_value_data
 NULL
+
 
 #' Grund till TNM (patologisk/klinisk)
 #'
@@ -425,18 +384,34 @@ NULL
 #' @family key_value_data
 NULL
 
+
 #' ICD-10 code
 #'
-#' Key-value codes for ICD-10-SE 2016 (Swedish version).
-#' Includes all ICD-10-codes (not only the C- and D-codes).
-#' Data from Socialstyrelsen.
+#' Key-value codes for ICD-10-SE 2020 (Swedish version).
 #' Note that key codes are given without dots, i e C569, not C56.9.
 #'
 #' @docType data
 #' @keywords datasets
 #' @name icd10
 #' @family key_value_data
-#' @references \url{http://www.socialstyrelsen.se/klassificeringochkoder/laddaner/kodtextfiler#1}
+#' @source \url{https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/kodtextfiler/}
+NULL
+
+
+#' ICD-9-CM diagnosis and procedure codes
+#'
+#' Key-value codes for ICD-9-CM diagnostics (\code{icd9cmd}) and 
+#' procedure (\code{icd9cmp}) codes (version 32).
+#'
+#' @docType data
+#' @keywords datasets
+#' @name icd9cmd
+#' @family key_value_data
+#' @source \url{https://www.cms.gov/Medicare/Coding/ICD9ProviderDiagnosticCodes/codes}
+NULL
+
+#' @rdname icd9cmd
+#' @name icd9cmp
 NULL
 
 
@@ -453,7 +428,6 @@ NULL
 NULL
 
 
-
 #' Snomed 3
 #'
 #' Key-value codes for Snomed3 (fr 2005).
@@ -464,7 +438,6 @@ NULL
 #' @name snomed3
 #' @family key_value_data
 NULL
-
 
 
 #' PAD (C24) code
@@ -478,15 +451,7 @@ NULL
 NULL
 
 
-
-################################################################################
-#                                                                              #
-#                                 Other codes                                  #
-#                                                                              #
-################################################################################
-
-
-
+# Misc --------------------------------------------------------------------
 
 #' Gender code (kon)
 #'
@@ -497,4 +462,26 @@ NULL
 #' @keywords datasets
 #' @name kon
 #' @family key_value_data
+NULL
+
+#' Anatomical Therapeutic Chemical (ATC) Classification System codes
+#'
+#' Key-value codes for ATC from the Swedish Medical Products Agency (2020-04-07).
+#'
+#' @docType data
+#' @keywords datasets
+#' @name atc
+#' @family key_value_data
+#' @source \url{https://nsl.mpa.se/}
+NULL
+
+#' Help tables from Rockan
+#'
+#' Key-value codes from old help tables used with Rockan 
+#' (by Swedish regional cancer centers) 
+#' @docType data
+#' @keywords datasets
+#' @name rockan
+#' @family key_value_data
+#' @aliases avgm ben digr dodca manuell obd status manuell
 NULL

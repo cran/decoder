@@ -3,24 +3,24 @@
 \docType{data}
 \name{sjukvardsomrade}
 \alias{sjukvardsomrade}
-\title{Geographical healthcare areas}
+\title{Geographical health care areas}
 \description{
 Key-value codes for health care areas.
 }
 \details{
 \itemize{
-     \item{Key: the first four digits from the LKF-code}
-     \item{Value: A geographical area (sub area of county/lan) with special 
-     interest}
+  \item{Key: the first four digits from the LKF-code}
+  \item{Value: A geographical area (sub area of county/lan) with special 
+    interest}
 }
 
-The object currently only applies to the Western healthcare region
+The object currently only applies to the Western health care region
 \itemize{
-     \item{Storgoteborg}
-     \item{Fyrbodal}
-     \item{Sodra_Alvsborg}
-     \item{Skaraborg}
-     \item{Norra_Halland}
+  \item{Storgoteborg}
+  \item{Fyrbodal}
+  \item{Sodra_Alvsborg}
+  \item{Skaraborg}
+  \item{Norra_Halland}
 }
 Updates for other regions needs to be requested (please do!).
 }
@@ -28,7 +28,7 @@ Updates for other regions needs to be requested (please do!).
 
  Kungalv is an independent area by default. There are situations when Kungalv 
  should be dealt with as an
- independent healthcare region or as a part of Storgoteborg. 
+ independent health care region or as a part of greater Gothenburg. 
  See section "extra_functions" in \link{decode}
  to handle this.
 }
@@ -36,22 +36,40 @@ Updates for other regions needs to be requested (please do!).
 \seealso{
 \link{extra_functions}
 
-Other key_value_data: \code{\link{distrikt}},
-  \code{\link{figo}}, \code{\link{forsamling}},
-  \code{\link{hemort}}, \code{\link{hsn}},
-  \code{\link{icd10}}, \code{\link{icd7_grov}},
-  \code{\link{icd7}}, \code{\link{icd9}},
-  \code{\link{icdo3_grov}}, \code{\link{icdo3}},
-  \code{\link{icdo}}, \code{\link{klinik}},
-  \code{\link{kommun}}, \code{\link{kon}},
-  \code{\link{lan}}, \code{\link{m_rtr}},
-  \code{\link{n_rtr}}, \code{\link{pad}},
-  \code{\link{patologiavdelning}}, \code{\link{rc}},
-  \code{\link{region}}, \code{\link{sida}},
-  \code{\link{sjukhus_inca}}, \code{\link{sjukhus_par}},
-  \code{\link{sjukhus}}, \code{\link{snomed3}},
-  \code{\link{snomed}}, \code{\link{t_rtr}},
-  \code{\link{tnmgrund}}
+Other key_value_data: 
+\code{\link{atc}},
+\code{\link{distrikt}},
+\code{\link{figo}},
+\code{\link{forsamling}},
+\code{\link{hemort}},
+\code{\link{hsn}},
+\code{\link{icd10}},
+\code{\link{icd7_grov}},
+\code{\link{icd7}},
+\code{\link{icd9cmd}},
+\code{\link{icd9}},
+\code{\link{icdo3_grov}},
+\code{\link{icdo3}},
+\code{\link{icdo}},
+\code{\link{klinik}},
+\code{\link{kommun}},
+\code{\link{kon}},
+\code{\link{kva}},
+\code{\link{lan}},
+\code{\link{m_rtr}},
+\code{\link{n_rtr}},
+\code{\link{pad}},
+\code{\link{patologiavdelning}},
+\code{\link{region}},
+\code{\link{rockan}},
+\code{\link{sida}},
+\code{\link{sjukhus_inca}},
+\code{\link{sjukhus_par}},
+\code{\link{sjukhus}},
+\code{\link{snomed3}},
+\code{\link{snomed}},
+\code{\link{t_rtr}},
+\code{\link{tnmgrund}}
 }
 \concept{key_value_data}
 \keyword{datasets}

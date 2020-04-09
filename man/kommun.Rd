@@ -3,32 +3,50 @@
 \docType{data}
 \name{kommun}
 \alias{kommun}
-\title{Kommun code (municipality code)}
+\title{Swedish municipality codes}
+\source{
+\url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
+}
 \description{
-Key-value codes for the Swedish municipalities (kommuner).
+Key-value codes for the Swedish municipalities.
 First four digits in the LKF code.
 Data from 2014-08-12.
 }
-\references{
-\url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/lan-och-kommuner/}
-}
 \seealso{
-Other key_value_data: \code{\link{distrikt}},
-  \code{\link{figo}}, \code{\link{forsamling}},
-  \code{\link{hemort}}, \code{\link{hsn}},
-  \code{\link{icd10}}, \code{\link{icd7_grov}},
-  \code{\link{icd7}}, \code{\link{icd9}},
-  \code{\link{icdo3_grov}}, \code{\link{icdo3}},
-  \code{\link{icdo}}, \code{\link{klinik}},
-  \code{\link{kon}}, \code{\link{lan}},
-  \code{\link{m_rtr}}, \code{\link{n_rtr}},
-  \code{\link{pad}}, \code{\link{patologiavdelning}},
-  \code{\link{rc}}, \code{\link{region}},
-  \code{\link{sida}}, \code{\link{sjukhus_inca}},
-  \code{\link{sjukhus_par}}, \code{\link{sjukhus}},
-  \code{\link{sjukvardsomrade}}, \code{\link{snomed3}},
-  \code{\link{snomed}}, \code{\link{t_rtr}},
-  \code{\link{tnmgrund}}
+Other key_value_data: 
+\code{\link{atc}},
+\code{\link{distrikt}},
+\code{\link{figo}},
+\code{\link{forsamling}},
+\code{\link{hemort}},
+\code{\link{hsn}},
+\code{\link{icd10}},
+\code{\link{icd7_grov}},
+\code{\link{icd7}},
+\code{\link{icd9cmd}},
+\code{\link{icd9}},
+\code{\link{icdo3_grov}},
+\code{\link{icdo3}},
+\code{\link{icdo}},
+\code{\link{klinik}},
+\code{\link{kon}},
+\code{\link{kva}},
+\code{\link{lan}},
+\code{\link{m_rtr}},
+\code{\link{n_rtr}},
+\code{\link{pad}},
+\code{\link{patologiavdelning}},
+\code{\link{region}},
+\code{\link{rockan}},
+\code{\link{sida}},
+\code{\link{sjukhus_inca}},
+\code{\link{sjukhus_par}},
+\code{\link{sjukhus}},
+\code{\link{sjukvardsomrade}},
+\code{\link{snomed3}},
+\code{\link{snomed}},
+\code{\link{t_rtr}},
+\code{\link{tnmgrund}}
 }
 \concept{key_value_data}
 \keyword{datasets}

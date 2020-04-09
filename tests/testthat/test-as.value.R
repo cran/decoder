@@ -5,6 +5,6 @@ test_that("as.value", {
 })
 
 test_that("is.value", {
-  expect_true(is.value(snomed$value))
-  expect_true(is.value(snomed$key))
+  expect_true(is.value(decoder::snomed$value))
+  expect_true(is.value(decoder::snomed$key))
 })

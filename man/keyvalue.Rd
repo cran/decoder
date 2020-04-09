@@ -47,7 +47,6 @@ Functions to check if an object is a keyvalue object, or coerce it if possible.
 }
 }
 \examples{
-snomed <- decoder:::snomed
 snomed2 <- as.keyvalue(snomed)
 is.keyvalue(snomed2)
 summary(snomed2)

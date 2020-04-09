@@ -1,6 +1,6 @@
 context("extra_functions")
 
-x <- decoder:::sjukvardsomrade$key
+x <- sjukvardsomrade$key
 
 test_that("kungalv2Storgoteborg", {
   expect_false(
@@ -22,12 +22,4 @@ test_that("real_names", {
 test_that("short_region_names", {
   expect_equal(decode(3:6, "region", "short_region_names"),
    c("Syd\u00F6stra", "Syd", "V\u00E4st", "Norr"))
-})
-
-test_that("RC names", {
-  expect_equal(
-    decode(500004, "sjukhus_rc", "sjukhus_rc_namn"), "Angereds N\u00E4rsjukhus")
-  expect_equal(
-    decode(500004, "sjukhus_rc", "forvaltning_rc_namn"), 
-    "Angereds n\u00E4rsjukhus")
 })
