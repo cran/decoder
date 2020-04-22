@@ -28,7 +28,7 @@ test_that("decode.data.frame", {
     expect_equal(decode(data.frame(KON_VALUE = 1:2))$KON_VALUE_kon_beskrivning,
               c("Man", "Kvinna")
   ))        
-  suppressMessages(suppressWarnings(expect_equal(ncol(decode(d)), 10)))
+  suppressMessages(suppressWarnings(expect_equal(ncol(decode(d)), 9)))
   expect_message(
     decode(data.frame(KON_VALUE = 1, KON_VALUE_kon_beskrivning = "Man")),
     "seems to be already decoded")

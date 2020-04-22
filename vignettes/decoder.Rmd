@@ -86,12 +86,12 @@ It should however also be noted that the variable names are hard coded and have 
 Note that the same coded variable might be decoded by more than one keyvalue-object, for example the "a_icdo3"-variable is automatically decoded by the "icdo3" keyvalue object (see `?icdo3`) with a dictionary from Rockan. ICD-O3 however, can also be seen as a "developed subset" of ICD10, wherefore:
 
 ```{r}
-decode(incadata$a_icdo3, "icd10")
+decode(incadata$a_icdo3, "icd10se")
 ```
 
 "icd10", can also decode non oncological desease codes:
 ```{r}
-decode(c("D448A", "T009", "F182", "S134C", "C131"), "icd10")
+decode(c("D448A", "T009", "F182", "S134C", "C131"), "icd10se")
 ```
 
 

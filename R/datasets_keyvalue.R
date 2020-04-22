@@ -385,18 +385,30 @@ NULL
 NULL
 
 
-#' ICD-10 code
+#' ICD-10-SE code
 #'
 #' Key-value codes for ICD-10-SE 2020 (Swedish version).
 #' Note that key codes are given without dots, i e C569, not C56.9.
 #'
 #' @docType data
 #' @keywords datasets
-#' @name icd10
+#' @name icd10se
 #' @family key_value_data
 #' @source \url{https://www.socialstyrelsen.se/utveckla-verksamhet/e-halsa/klassificering-och-koder/kodtextfiler/}
 NULL
 
+
+#' ICD-10-CM code
+#'
+#' Key-value codes for ICD-10-CM 2020.
+#' Note that key codes are given without dots, i e C569, not C56.9.
+#'
+#' @docType data
+#' @keywords datasets
+#' @name icd10cm
+#' @family key_value_data
+#' @source \url{ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2020/}
+NULL
 
 #' ICD-9-CM diagnosis and procedure codes
 #'

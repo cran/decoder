@@ -12,7 +12,7 @@
 
 <meta name="author" content="Erik Bulow" />
 
-<meta name="date" content="2020-04-09" />
+<meta name="date" content="2020-04-22" />
 
 <title>Decode coded variables to plain text (and vice versa)</title>
 
@@ -303,7 +303,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Decode coded variables to plain text (and vice versa)</h1>
 <h4 class="author">Erik Bulow</h4>
-<h4 class="date">2020-04-09</h4>
+<h4 class="date">2020-04-22</h4>
 
 
 
@@ -470,7 +470,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="several-keyvalues-for-the-same-code" class="section level2">
 <h2>Several keyvalues for the same code</h2>
 <p>Note that the same coded variable might be decoded by more than one keyvalue-object, for example the “a_icdo3”-variable is automatically decoded by the “icdo3” keyvalue object (see <code>?icdo3</code>) with a dictionary from Rockan. ICD-O3 however, can also be seen as a “developed subset” of ICD10, wherefore:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">decode</span>(incadata<span class="op">$</span>a_icdo3, <span class="st">&quot;icd10&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">decode</span>(incadata<span class="op">$</span>a_icdo3, <span class="st">&quot;icd10se&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Malign tumör i huden på övre extremiteten inklusive skuldran&quot;              
 ## [2] &quot;Ospecificerad lokalisation av malign tumör i binjure&quot;                      
 ## [3] &quot;Ospecificerad lokalisation av malign tumör i esofagus&quot;                     
@@ -478,7 +478,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 ## [5] &quot;Malign tumör i perifera nerver i bäckenet&quot;                                 
 ## [6] &quot;Malign tumör i glottis&quot;</code></pre>
 <p>“icd10”, can also decode non oncological desease codes:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">decode</span>(<span class="kw">c</span>(<span class="st">&quot;D448A&quot;</span>, <span class="st">&quot;T009&quot;</span>, <span class="st">&quot;F182&quot;</span>, <span class="st">&quot;S134C&quot;</span>, <span class="st">&quot;C131&quot;</span>), <span class="st">&quot;icd10&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">decode</span>(<span class="kw">c</span>(<span class="st">&quot;D448A&quot;</span>, <span class="st">&quot;T009&quot;</span>, <span class="st">&quot;F182&quot;</span>, <span class="st">&quot;S134C&quot;</span>, <span class="st">&quot;C131&quot;</span>), <span class="st">&quot;icd10se&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Tumör med multiglandulär lokalisation, typ I&quot;                                                 
 ## [2] &quot;Multipla ytliga skador, ospecificerade&quot;                                                       
 ## [3] &quot;Psykiska störningar och beteendestörningar orsakade av flyktiga lösningsmedel-Beroendesyndrom&quot;
@@ -516,70 +516,62 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb23-4"><a href="#cb23-4"></a>  )</span>
 <span id="cb23-5"><a href="#cb23-5"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">suppressWarnings</span>(<span class="kw">decode</span>(df)))</span></code></pre></div>
 <pre><code>## New decoded columns added: 
-## * LKF_kommun_beskrivning
 ## * LKF_forsamling_beskrivning
-## * LKF_hemort2_beskrivning
+## * LKF_hemort_beskrivning
 ## * LKF_lan_beskrivning
-## * LKF_hemort_beskrivning</code></pre>
+## * LKF_kommun_beskrivning</code></pre>
 <table>
 <thead>
 <tr class="header">
 <th align="left">LKF</th>
-<th align="left">LKF_kommun_beskrivning</th>
 <th align="left">LKF_forsamling_beskrivning</th>
-<th align="left">LKF_hemort2_beskrivning</th>
-<th align="left">LKF_lan_beskrivning</th>
 <th align="left">LKF_hemort_beskrivning</th>
+<th align="left">LKF_lan_beskrivning</th>
+<th align="left">LKF_kommun_beskrivning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">149804</td>
-<td align="left">Tidaholm</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Västra Götalands län</td>
 <td align="left">Velinga</td>
+<td align="left">Västra Götalands län</td>
+<td align="left">Tidaholm</td>
 </tr>
 <tr class="even">
 <td align="left">147104</td>
-<td align="left">Götene</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Västra Götalands län</td>
 <td align="left">Holmestad</td>
+<td align="left">Västra Götalands län</td>
+<td align="left">Götene</td>
 </tr>
 <tr class="odd">
 <td align="left">012704</td>
-<td align="left">Botkyrka</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Stockholms län</td>
 <td align="left">Salem</td>
+<td align="left">Stockholms län</td>
+<td align="left">Botkyrka</td>
 </tr>
 <tr class="even">
 <td align="left">143505</td>
-<td align="left">Tanum</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Västra Götalands län</td>
 <td align="left">Mo</td>
+<td align="left">Västra Götalands län</td>
+<td align="left">Tanum</td>
 </tr>
 <tr class="odd">
 <td align="left">126502</td>
-<td align="left">Sjöbo</td>
 <td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">Skåne län</td>
 <td align="left">Björka</td>
+<td align="left">Skåne län</td>
+<td align="left">Sjöbo</td>
 </tr>
 <tr class="even">
 <td align="left">232602</td>
-<td align="left">Berg</td>
 <td align="left">Hackås</td>
 <td align="left">Hackås</td>
 <td align="left">Jämtlands län</td>
-<td align="left">Hackås</td>
+<td align="left">Berg</td>
 </tr>
 </tbody>
 </table>

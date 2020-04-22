@@ -1,7 +1,7 @@
 Package: decoder
 Type: Package
 Title: Decode Coded Variables to Plain Text and the Other Way Around
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: 
   person(
     "Erik", 
@@ -28,8 +28,8 @@ RoxygenNote: 7.1.0
 LazyData: TRUE
 Language: en-US, sv
 NeedsCompilation: no
-Packaged: 2020-04-09 05:22:11 UTC; erik_
+Packaged: 2020-04-22 11:17:20 UTC; erik_
 Author: Erik Bulow [aut, cre] (<https://orcid.org/0000-0002-9973-456X>)
 Maintainer: Erik Bulow <erik.bulow@rccvast.se>
 Repository: CRAN
-Date/Publication: 2020-04-09 08:40:14 UTC
+Date/Publication: 2020-04-22 11:32:05 UTC
